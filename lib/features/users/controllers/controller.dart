@@ -57,6 +57,7 @@ class AuthController{
 
   Future<Map<String, dynamic>> list(HttpRequest request, HttpResponse response) async{
     final users= await _userService.getUsersByFilter();
+
     if(users.isEmpty){
       return{
         'success': true,

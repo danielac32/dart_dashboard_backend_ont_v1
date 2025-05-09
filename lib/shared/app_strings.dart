@@ -34,4 +34,6 @@ abstract class AppStrings {
   static const String presupuestoInicial = 'PRESUPUESTO_INICIAL';
   static const String presupuestoFinal = 'PRESUPUESTO_FINAL';
   static const String gastoReal = 'GASTO_REAL';
+
+  static var programacionesFinancieras;
 }

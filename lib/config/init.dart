@@ -1,6 +1,7 @@
 
 
 import 'package:alfred/alfred.dart';
+import 'package:dart_dashboard_backend_ont_v1/config/seeder.dart';
 import 'package:dart_dashboard_backend_ont_v1/features/users/services/user_service.dart';
 import 'package:dart_dashboard_backend_ont_v1/routes/routes.dart';
 import 'package:objectbox/objectbox.dart';
@@ -18,7 +19,11 @@ class AppApi{
 
   Future<void> start()async {
     //app.all('*', cors(origin: 'myorigin.com'));
+
     final userRepo=UserRepository(store);
+    final seeder = DatabaseSeeder(store);
+    await seeder.seed();
+
     final userService=UserService(userRepo);
     authRoutes('auth/',app,userService);
     userRoutes('user/',app,userService);
