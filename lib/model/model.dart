@@ -132,6 +132,16 @@ class Permission {
     this.canDelete = false,
     this.canPublish = false,
   });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'section':section,
+      'canCreate': canCreate,
+      'canEdit': canEdit, // Considera no incluir la contraseña por seguridad
+      'canDelete': canDelete,
+      'canPublish': canPublish,
+    };
+  }
 }
 
 @Entity()

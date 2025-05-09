@@ -56,6 +56,17 @@ class DatabaseSeeder {
       canDelete: true,
       canPublish: true,
     );
+
+    final permiso2 = Permission(
+      section: AppStrings.alcaldias,
+      canCreate: true,
+      canEdit: true,
+      canDelete: true,
+      canPublish: true,
+    );
+    permiso2.user.target = superAdmin;
+    permissionBox.put(permiso2);
+
     permisoAdmin.user.target = superAdmin;
     permissionBox.put(permisoAdmin);
 

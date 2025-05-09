@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:alfred/alfred.dart';
+import 'package:dart_dashboard_backend_ont_v1/features/users/controllers/utils/getUser.dart';
 import 'package:dart_dashboard_backend_ont_v1/features/users/interfaces/register_request.dart';
 import 'package:dart_dashboard_backend_ont_v1/features/users/services/user_service.dart';
 import 'package:dart_dashboard_backend_ont_v1/model/model.dart';
@@ -144,4 +145,266 @@ class AuthController{
       'users': user.toJson()
     };
   }
+/**********************************************************************************************************************/
+  Future<Map<String, dynamic>> getPermissionsByUser(HttpRequest request, HttpResponse response) async {
+
+    final userId = request.params['id'];
+    User user = await getUserByIdEmail(_userService,userId);
+    final permissions = await _userService.getPermissionsByUser(user.id);
+
+    return {
+      'success': true,
+      'permissions': permissions
+    };
+  }
+
+  Future<Map<String, dynamic>> addPermissionToUser(HttpRequest request, HttpResponse response) async {
+    final userId = request.params['id'];
+    final body= await request.bodyAsJsonMap;
+    User user = await getUserByIdEmail(_userService,userId);
+    final dynamicRequest = DynamicRequest( body);
+    final permiso = Permission(
+      section: dynamicRequest.call('section'),
+      canCreate: dynamicRequest.call('canCreate'),
+      canEdit: dynamicRequest.call('canEdit'),
+      canDelete: dynamicRequest.call('canDelete'),
+      canPublish:dynamicRequest.call('canPublish'),
+    );
+    permiso.user.target=user;
+    final success = _userService.addPermissionToUser(user.id, permiso);
+    if (!success) {
+      throw AlfredException(HttpStatus.badRequest, {'error': 'Failed to add permission'});
+    }
+    return {
+      'success': true,
+      'message': 'Permission added successfully',
+    };
+  }
+
+  Future<Map<String, dynamic>> removePermissionFromUser(HttpRequest request, HttpResponse response) async {
+
+    final userId = request.params['id'];
+    User user = await getUserByIdEmail(_userService,userId);
+    final permissionId = int.parse(request.params['permissionId']!);
+
+    final success = _userService.removePermissionFromUser(user.id, permissionId);
+    if (!success) {
+      throw AlfredException(HttpStatus.badRequest, {'error': 'Failed to remove permission'});
+    }
+    return {
+      'success': true,
+      'message': 'Permission removed successfully',
+    };
+
+    /*final userId = int.parse(request.params['id']!);
+    final permissionId = int.parse(request.params['permissionId']!);
+
+    final success = _userService.removePermissionFromUser(userId, permissionId);
+    if (!success) {
+      throw AlfredException(HttpStatus.badRequest, {'error': 'Failed to remove permission'});
+    }
+    return {
+      'success': true,
+      'message': 'Permission removed successfully',
+    };*/
+    return {
+      'success': true,
+    };
+  }
+
+  // Métodos similares para organismos, programaciones, resúmenes y noticias...
+
+  // Organismos
+  Future<Map<String, dynamic>> getOrganismosByUser(HttpRequest request, HttpResponse response) async {
+    /*final userId = int.parse(request.params['id']!);
+    final organismos = _userService.getOrganismosByUser(userId);
+    return {
+      'success': true,
+      'organismos': organismos.map((o) => o.toJson()).toList(),
+    };*/
+    return {
+      'success': true,
+    };
+  }
+
+  Future<Map<String, dynamic>> addOrganismoToUser(HttpRequest request, HttpResponse response) async {
+    /*final userId = int.parse(request.params['id']!);
+    final body = await request.bodyAsJsonMap;
+    final organismo = OrganismoGobernacion.fromJson(body);
+
+    final success = _userService.addOrganismoToUser(userId, organismo);
+    if (!success) {
+      throw AlfredException(HttpStatus.badRequest, {'error': 'Failed to add organismo'});
+    }
+    return {
+      'success': true,
+      'message': 'Organismo added successfully',
+    };*/
+    return {
+      'success': true,
+    };
+  }
+
+  Future<Map<String, dynamic>> removeOrganismoFromUser(HttpRequest request, HttpResponse response) async {
+    /*final userId = int.parse(request.params['id']!);
+    final organismoId = int.parse(request.params['organismoId']!);
+
+    final success = _userService.removeOrganismoFromUser(userId, organismoId);
+    if (!success) {
+      throw AlfredException(HttpStatus.badRequest, {'error': 'Failed to remove organismo'});
+    }
+    return {
+      'success': true,
+      'message': 'Organismo removed successfully',
+    };*/
+    return {
+      'success': true,
+    };
+  }
+
+  // Programaciones Financieras
+  Future<Map<String, dynamic>> getProgramacionesByUser(HttpRequest request, HttpResponse response) async {
+    /*final userId = int.parse(request.params['id']!);
+    final programaciones = _userService.getProgramacionesByUser(userId);
+    return {
+      'success': true,
+      'programaciones': programaciones.map((p) => p.toJson()).toList(),
+    };*/
+    return {
+      'success': true,
+    };
+  }
+
+  Future<Map<String, dynamic>> addProgramacionToUser(HttpRequest request, HttpResponse response) async {
+    /*final userId = int.parse(request.params['id']!);
+    final body = await request.bodyAsJsonMap;
+    final programacion = ProgramacionFinanciera.fromJson(body);
+
+    final success = _userService.addProgramacionToUser(userId, programacion);
+    if (!success) {
+      throw AlfredException(HttpStatus.badRequest, {'error': 'Failed to add programación'});
+    }
+    return {
+      'success': true,
+      'message': 'Programación added successfully',
+    };*/
+    return {
+      'success': true,
+    };
+  }
+
+  Future<Map<String, dynamic>> removeProgramacionFromUser(HttpRequest request, HttpResponse response) async {
+    /*final userId = int.parse(request.params['id']!);
+    final programacionId = int.parse(request.params['programacionId']!);
+
+    final success = _userService.removeProgramacionFromUser(userId, programacionId);
+    if (!success) {
+      throw AlfredException(HttpStatus.badRequest, {'error': 'Failed to remove programación'});
+    }
+    return {
+      'success': true,
+      'message': 'Programación removed successfully',
+    };*/
+    return {
+      'success': true,
+    };
+  }
+
+  // Resúmenes de Gestión
+  Future<Map<String, dynamic>> getResumenesByUser(HttpRequest request, HttpResponse response) async {
+    /*final userId = int.parse(request.params['id']!);
+    final resumenes = _userService.getResumenesByUser(userId);
+    return {
+      'success': true,
+      'resumenes': resumenes.map((r) => r.toJson()).toList(),
+    };*/
+    return {
+      'success': true,
+    };
+  }
+
+  Future<Map<String, dynamic>> addResumenToUser(HttpRequest request, HttpResponse response) async {
+   /* final userId = int.parse(request.params['id']!);
+    final body = await request.bodyAsJsonMap;
+    final resumen = ResumenGestion.fromJson(body);
+
+    final success = _userService.addResumenToUser(userId, resumen);
+    if (!success) {
+      throw AlfredException(HttpStatus.badRequest, {'error': 'Failed to add resumen'});
+    }
+    return {
+      'success': true,
+      'message': 'Resumen added successfully',
+    };*/
+    return {
+      'success': true,
+    };
+  }
+
+  Future<Map<String, dynamic>> removeResumenFromUser(HttpRequest request, HttpResponse response) async {
+    /*final userId = int.parse(request.params['id']!);
+    final resumenId = int.parse(request.params['resumenId']!);
+
+    final success = _userService.removeResumenFromUser(userId, resumenId);
+    if (!success) {
+      throw AlfredException(HttpStatus.badRequest, {'error': 'Failed to remove resumen'});
+    }
+    return {
+      'success': true,
+      'message': 'Resumen removed successfully',
+    };*/
+    return {
+      'success': true,
+    };
+  }
+
+  // Noticias
+  Future<Map<String, dynamic>> getNoticiasByUser(HttpRequest request, HttpResponse response) async {
+    /*final userId = int.parse(request.params['id']!);
+    final noticias = _userService.getNoticiasByUser(userId);
+    return {
+      'success': true,
+      'noticias': noticias.map((n) => n.toJson()).toList(),
+    };*/
+    return {
+      'success': true,
+    };
+  }
+
+  Future<Map<String, dynamic>> addNoticiaToUser(HttpRequest request, HttpResponse response) async {
+   /* final userId = int.parse(request.params['id']!);
+    final body = await request.bodyAsJsonMap;
+    final noticia = Noticia.fromJson(body);
+
+    final success = _userService.addNoticiaToUser(userId, noticia);
+    if (!success) {
+      throw AlfredException(HttpStatus.badRequest, {'error': 'Failed to add noticia'});
+    }
+    return {
+      'success': true,
+      'message': 'Noticia added successfully',
+    };*/
+    return {
+      'success': true,
+    };
+  }
+
+  Future<Map<String, dynamic>> removeNoticiaFromUser(HttpRequest request, HttpResponse response) async {
+    /*final userId = int.parse(request.params['id']!);
+    final noticiaId = int.parse(request.params['noticiaId']!);
+
+    final success = _userService.removeNoticiaFromUser(userId, noticiaId);
+    if (!success) {
+      throw AlfredException(HttpStatus.badRequest, {'error': 'Failed to remove noticia'});
+    }
+    return {
+      'success': true,
+      'message': 'Noticia removed successfully',
+    };*/
+    return {
+      'success': true,
+    };
+  }
 }
+
+
