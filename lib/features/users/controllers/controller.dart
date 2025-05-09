@@ -196,20 +196,6 @@ class AuthController{
       'message': 'Permission removed successfully',
     };
 
-    /*final userId = int.parse(request.params['id']!);
-    final permissionId = int.parse(request.params['permissionId']!);
-
-    final success = _userService.removePermissionFromUser(userId, permissionId);
-    if (!success) {
-      throw AlfredException(HttpStatus.badRequest, {'error': 'Failed to remove permission'});
-    }
-    return {
-      'success': true,
-      'message': 'Permission removed successfully',
-    };*/
-    return {
-      'success': true,
-    };
   }
 
   // Métodos similares para organismos, programaciones, resúmenes y noticias...
