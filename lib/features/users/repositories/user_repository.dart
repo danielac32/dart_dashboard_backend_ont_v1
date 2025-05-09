@@ -16,13 +16,16 @@ class UserRepository {
 
   int create(User user) => _userBox.put(user);
 
-  bool update(User user) => _userBox.put(user) > 0;
+  bool update(User user) => _userBox.put(user,mode: PutMode.update) > 0;
 
   bool delete(int userId) => _userBox.remove(userId);
 
   User? getById(int id) => _userBox.get(id);
 
   User? getByEmail(String email) {
+   /* if (!RegExp(r'^[^\s@]+@[^\s@]+\.[^\s@]+$').hasMatch(email)) {
+      return null;
+    }*/
     final query = _userBox.query(User_.email.equals(email)).build();
     final user = query.findFirst();
     query.close();
@@ -42,4 +45,5 @@ class UserRepository {
     query.close();
     return users;
   }
+
 }

@@ -16,7 +16,7 @@ class User {
   String department; // DGAdministracion, DGEgreso, etc.
 
   final createdAt = DateTime.now();
-  final updatedAt = DateTime.now();
+  late var updatedAt = DateTime.now();
 
   @Backlink('user')
   final permissions = ToMany<Permission>();
@@ -44,7 +44,50 @@ class User {
     required this.department,
   });
 
+/*
+  User copyWith({
+    int? id,
+    String? email,
+    String? password,
+    String? name,
+    String? role,
+    String? department,
+    DateTime? updatedAt,
+  }) {
+    return User(
+      email: email ?? this.email,
+      password: password ?? this.password,
+      name: name ?? this.name,
+      role: role ?? this.role,
+      department: department ?? this.department,
+    )..updatedAt = updatedAt ?? DateTime.now();
+*/
+  User copyWith({
+    String? email,
+    String? password,
+    String? name,
+    String? role,
+    String? department,
+  }) {
+    // Actualizamos los campos de la instancia actual
+    if (email != null) this.email = email;
+    if (password != null) this.password = password;
+    if (name != null) this.name = name;
+    if (role != null) this.role = role;
+    if (department != null) this.department = department;
+
+    // Actualizamos la fecha de modificación
+    this.updatedAt = DateTime.now();
+
+    // Devolvemos la misma instancia
+    return this;
+  }
+
+
+
+
   // Método toJson() para serializar el objeto User
+
   Map<String, dynamic> toJson() {
     return {
       'id': id,

@@ -19,5 +19,4 @@ FutureOr validateLoginMiddleware(HttpRequest req, HttpResponse res) async {
   if (!RegExp(r'^[^\s@]+@[^\s@]+\.[^\s@]+$').hasMatch(email)) {
     throw AlfredException(400, {'error': 'El formato del correo electrónico es inválido'});
   }
-  print("validateLogin ok");
 }
