@@ -6,6 +6,13 @@ import '../interfaces/update_request.dart';
 
 
 FutureOr validateUpdateMiddleware(HttpRequest req, HttpResponse res) async {
+
+
+  /*
+  final body = await req.bodyAsJsonMap;
+  final dynamicRequest = DynamicRequest( body);
+  dynamicRequest.validate(['email', 'password', 'name','role','department','position']);
+   */
   final body = await req.bodyAsJsonMap;
   final dynamicRequest = DynamicRequest( body);
 
@@ -23,6 +30,21 @@ FutureOr validateUpdateMiddleware(HttpRequest req, HttpResponse res) async {
       throw AlfredException(400, {'error': 'campo password requeridos'});
     }
   }
+  if(dynamicRequest.call("position")!=null){
+    if (dynamicRequest.call("position").isEmpty) {
+      throw AlfredException(400, {'error': 'campo position requeridos'});
+    }
+  }
+  /*if(dynamicRequest.call("isActive")!=null){
+    if (dynamicRequest.call("isActive") != true || dynamicRequest.call("isActive") != false) {
+      throw AlfredException(400, {'error': 'campo isActive requeridos'});
+    }
+  }*/
+  /*if(dynamicRequest.call("profileImage")!=null){
+    if (dynamicRequest.call("profileImage").isEmpty) {
+      throw AlfredException(400, {'error': 'campo profileImage requeridos'});
+    }
+  }*/
   if(dynamicRequest.call("role")!=null){
     if (dynamicRequest.call("role").isEmpty) {
       throw AlfredException(400, {'error': 'campo role requeridos'});

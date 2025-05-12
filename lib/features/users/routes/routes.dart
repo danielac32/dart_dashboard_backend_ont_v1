@@ -42,7 +42,7 @@ void userRoutes(String url,Alfred app,UserService userService){
   app.get("get", authController.list,middleware: []);//GET ALL
   app.get(url, authController.list,middleware: [authMiddleware]);//GET ALL
   app.get("$url:id", authController.getById,middleware: [authMiddleware,validateGetIdMiddleware,]);//GET ID
-  app.patch("$url:id", authController.updateById,middleware: [authMiddleware,validateGetIdMiddleware,validateUpdateMiddleware]);//UPDATE
+  app.patch("$url:id", authController.updateById,middleware: [/*authMiddleware,*/validateGetIdMiddleware,validateUpdateMiddleware]);//UPDATE
   app.delete("$url:id", authController.deleteById,middleware: [authMiddleware,validateGetIdMiddleware]);//delete
   /***********************************************************************************************************/
   // Endpoints para manejar permisos

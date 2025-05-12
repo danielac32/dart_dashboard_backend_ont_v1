@@ -89,6 +89,8 @@ class AuthController{
     final dynamicRequest = DynamicRequest( body);
     final id = request.params['id'];
 
+
+
     final user = await _userService.getByIdEmail(id);
     if (user == null) {
       /*response.statusCode = 404;
@@ -100,7 +102,10 @@ class AuthController{
                                     email: dynamicRequest.call("email"),
                                     role: dynamicRequest.call("role"),
                                     department: dynamicRequest.call("department"),
-                                    password: dynamicRequest.call("password")
+                                    password: dynamicRequest.call("password"),
+                                    position: dynamicRequest.call('position'),
+                                    isActive: dynamicRequest.call('isActive'),
+                                    profileImage: dynamicRequest.call('profileImage')
                                 );
 
     print(userUpdate.toJson());
