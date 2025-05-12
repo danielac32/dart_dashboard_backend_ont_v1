@@ -26,6 +26,7 @@ class RegisterRequest {
     final name = json['name'] as String?;
     final department = json['department'] as String?;
     final role = json['role'] as String?;
+   // final position = json['position'] as String?;
 
     if (email == null || password == null || name == null || department == null) {
       throw AlfredException(400, {'error': 'Todos los campos son requeridos: email, password, name, department'});

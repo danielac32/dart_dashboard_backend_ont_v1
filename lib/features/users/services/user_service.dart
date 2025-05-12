@@ -57,6 +57,7 @@ class UserService {
     required String name,
     required String department,
     String role = AppStrings.user,
+    required String position,
   }) async {
     if (_userRepository.getByEmail(email) != null) {
       throw Exception('El usuario con este email ya existe');
@@ -67,8 +68,133 @@ class UserService {
       name: name,
       department: department,
       role: role,
+      position: position
     );
     return _userRepository.create(user);
   }
+
+  // Métodos para manejar las relaciones ToMany
+
+  List<Permission> getPermissionsByUser(int userId) {
+    try {
+      return _userRepository.getPermissionsByUser(userId);
+    } catch (e) {
+      throw Exception('Error al obtener los permisos del usuario: $e');
+    }
+  }
+
+  bool addPermissionToUser(int userId, Permission permission) {
+    try {
+      return _userRepository.addPermissionToUser(userId, permission);
+    } catch (e) {
+      throw Exception('Error al agregar el permiso al usuario: $e');
+    }
+  }
+
+  bool removePermissionFromUser(int userId, int permissionId) {
+    try {
+      return _userRepository.removePermissionFromUser(userId, permissionId);
+    } catch (e) {
+      throw Exception('Error al eliminar el permiso del usuario: $e');
+    }
+  }
+
+  List<OrganismoGobernacion> getOrganismosByUser(int userId) {
+    try {
+      return _userRepository.getOrganismosByUser(userId);
+    } catch (e) {
+      throw Exception('Error al obtener los organismos del usuario: $e');
+    }
+  }
+
+  bool addOrganismoToUser(int userId, OrganismoGobernacion organismo) {
+    try {
+      return _userRepository.addOrganismoToUser(userId, organismo);
+    } catch (e) {
+      throw Exception('Error al agregar el organismo al usuario: $e');
+    }
+  }
+
+  bool removeOrganismoFromUser(int userId, int organismoId) {
+    try {
+      return _userRepository.removeOrganismoFromUser(userId, organismoId);
+    } catch (e) {
+      throw Exception('Error al eliminar el organismo del usuario: $e');
+    }
+  }
+
+  List<ProgramacionFinanciera> getProgramacionesByUser(int userId) {
+    try {
+      return _userRepository.getProgramacionesByUser(userId);
+    } catch (e) {
+      throw Exception('Error al obtener las programaciones del usuario: $e');
+    }
+  }
+
+  bool addProgramacionToUser(int userId, ProgramacionFinanciera programacion) {
+    try {
+      return _userRepository.addProgramacionToUser(userId, programacion);
+    } catch (e) {
+      throw Exception('Error al agregar la programación al usuario: $e');
+    }
+  }
+
+  bool removeProgramacionFromUser(int userId, int programacionId) {
+    try {
+      return _userRepository.removeProgramacionFromUser(userId, programacionId);
+    } catch (e) {
+      throw Exception('Error al eliminar la programación del usuario: $e');
+    }
+  }
+
+  List<ResumenGestion> getResumenesByUser(int userId) {
+    try {
+      return _userRepository.getResumenesByUser(userId);
+    } catch (e) {
+      throw Exception('Error al obtener los resúmenes del usuario: $e');
+    }
+  }
+
+  bool addResumenToUser(int userId, ResumenGestion resumen) {
+    try {
+      return _userRepository.addResumenToUser(userId, resumen);
+    } catch (e) {
+      throw Exception('Error al agregar el resumen al usuario: $e');
+    }
+  }
+
+  bool removeResumenFromUser(int userId, int resumenId) {
+    try {
+      return _userRepository.removeResumenFromUser(userId, resumenId);
+    } catch (e) {
+      throw Exception('Error al eliminar el resumen del usuario: $e');
+    }
+  }
+
+  List<Noticia> getNoticiasByUser(int userId) {
+    try {
+      return _userRepository.getNoticiasByUser(userId);
+    } catch (e) {
+      throw Exception('Error al obtener las noticias del usuario: $e');
+    }
+  }
+
+  bool addNoticiaToUser(int userId, Noticia noticia) {
+    try {
+      return _userRepository.addNoticiaToUser(userId, noticia);
+    } catch (e) {
+      throw Exception('Error al agregar la noticia al usuario: $e');
+    }
+  }
+
+  bool removeNoticiaFromUser(int userId, int noticiaId) {
+    try {
+      return _userRepository.removeNoticiaFromUser(userId, noticiaId);
+    } catch (e) {
+      throw Exception('Error al eliminar la noticia del usuario: $e');
+    }
+  }
+
+
 }
 

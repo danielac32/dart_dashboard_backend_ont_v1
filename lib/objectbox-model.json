@@ -285,7 +285,7 @@
     },
     {
       "id": "8:4006280500475729296",
-      "lastPropertyId": "6:4354208351656303735",
+      "lastPropertyId": "10:9027567166719068501",
       "name": "User",
       "properties": [
         {
@@ -318,12 +318,89 @@
           "id": "6:4354208351656303735",
           "name": "department",
           "type": 9
+        },
+        {
+          "id": "7:76082751438972915",
+          "name": "isActive",
+          "type": 1
+        },
+        {
+          "id": "8:6520927971229166274",
+          "name": "profileImage",
+          "type": 9
+        },
+        {
+          "id": "9:6361111703744880491",
+          "name": "position",
+          "type": 9
+        },
+        {
+          "id": "10:9027567166719068501",
+          "name": "updatedAt",
+          "type": 10
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "9:8866356205039595064",
+      "lastPropertyId": "2:2253201313105236971",
+      "name": "Cargo",
+      "properties": [
+        {
+          "id": "1:1034807701709922633",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:2253201313105236971",
+          "name": "name",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "10:1100089187136652015",
+      "lastPropertyId": "2:1510083418649440820",
+      "name": "Direccion",
+      "properties": [
+        {
+          "id": "1:3866697558774261757",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:1510083418649440820",
+          "name": "name",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "11:8962008105408969153",
+      "lastPropertyId": "2:6238858291967041046",
+      "name": "Role",
+      "properties": [
+        {
+          "id": "1:6302901893960723708",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:6238858291967041046",
+          "name": "name",
+          "type": 9
         }
       ],
       "relations": []
     }
   ],
-  "lastEntityId": "8:4006280500475729296",
+  "lastEntityId": "11:8962008105408969153",
   "lastIndexId": "7:2993736451981886850",
   "lastRelationId": "1:5877811884690987956",
   "lastSequenceId": "0:0",

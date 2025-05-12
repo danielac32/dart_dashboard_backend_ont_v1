@@ -4,6 +4,64 @@ import 'package:objectbox/objectbox.dart';
 import '../shared/app_strings.dart';
 
 
+
+
+@Entity()
+class Role{
+  @Id()
+  int id = 0;
+  String name;
+  Role({required this.name});
+
+  Role copyWith({String? name}) {
+    if (name != null) this.name = name;
+    return this;
+  }
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+    };
+  }
+}
+
+
+@Entity()
+class Cargo{
+  @Id()
+  int id = 0;
+  String name;
+  Cargo({required this.name});
+
+  Cargo copyWith({String? name}) {
+    if (name != null) this.name = name;
+    return this;
+  }
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+    };
+  }
+}
+
+
+@Entity()
+class Direccion{
+  @Id()
+  int id = 0;
+  String name;
+  Direccion({required this.name});
+
+  Direccion copyWith({String? name}) {
+    if (name != null) this.name = name;
+    return this;
+  }
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+    };
+  }
+}
+
 @Entity()
 class User {
   @Id()
@@ -14,6 +72,9 @@ class User {
   String name;
   String role; // SUPER_ADMIN, DEPARTMENT_ADMIN, EDITOR, VIEWER, GUEST
   String department; // DGAdministracion, DGEgreso, etc.
+  bool isActive;
+  String? profileImage; // Imagen de perfil (puede ser nulo)
+  String position;
 
   final createdAt = DateTime.now();
   late var updatedAt = DateTime.now();
@@ -41,6 +102,9 @@ class User {
     required this.password,
     required this.name,
     this.role = AppStrings.user,
+    this.isActive=true,
+    this.position=AppStrings.analista,
+    this.profileImage,
     required this.department,
   });
 
@@ -68,6 +132,9 @@ class User {
     String? name,
     String? role,
     String? department,
+    bool? isActive,
+    String? position,
+    String? profileImage
   }) {
     // Actualizamos los campos de la instancia actual
     if (email != null) this.email = email;
@@ -75,7 +142,9 @@ class User {
     if (name != null) this.name = name;
     if (role != null) this.role = role;
     if (department != null) this.department = department;
-
+    if( isActive != null) this.isActive=isActive;
+    if (position != null) this.position=position;
+    if( profileImage != null) this.profileImage=profileImage;
     // Actualizamos la fecha de modificación
     this.updatedAt = DateTime.now();
 
@@ -98,6 +167,9 @@ class User {
       'department': department,
       'createdAt': createdAt.toIso8601String(), // Serializa la fecha como String
       'updatedAt': updatedAt.toIso8601String(), // Serializa la fecha como String
+      'isActive': isActive,
+      'position': position,
+      'profileImage': profileImage
       /* 'permissions': permissions.map((permission) => permission.toJson()).toList(), // Serializa las relaciones
       'organismosGobernacion': organismosGobernacion.map((organismo) => organismo.toJson()).toList(),
       'alcaldias': alcaldias.map((alcaldia) => alcaldia.toJson()).toList(),
@@ -132,6 +204,16 @@ class Permission {
     this.canDelete = false,
     this.canPublish = false,
   });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'section':section,
+      'canCreate': canCreate,
+      'canEdit': canEdit, // Considera no incluir la contraseña por seguridad
+      'canDelete': canDelete,
+      'canPublish': canPublish,
+    };
+  }
 }
 
 @Entity()
@@ -155,6 +237,15 @@ class OrganismoGobernacion {
     required this.valor2,
     required this.valor3,
   });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'nombre':nombre,
+      'valor1': valor1,
+      'valor2': valor2, // Considera no incluir la contraseña por seguridad
+      'valor3': valor3,
+    };
+  }
 }
 
 @Entity()
@@ -240,6 +331,13 @@ class ResumenGestion {
     required this.descripcion,
     required this.imagenUrl,
   });
+  Map<String, dynamic> toJson() {
+    return {
+      'titulo':titulo,
+      'descripcion': descripcion,
+      'imagenUrl': imagenUrl, // Considera no incluir la contraseña por seguridad
+    };
+  }
 }
 
 @Entity()
@@ -261,4 +359,11 @@ class Noticia {
     required this.contenido,
     this.imagenUrl,
   });
+  Map<String, dynamic> toJson() {
+    return {
+      'titulo':titulo,
+      'contenido': contenido,
+      'imagenUrl': imagenUrl, // Considera no incluir la contraseña por seguridad
+    };
+  }
 }

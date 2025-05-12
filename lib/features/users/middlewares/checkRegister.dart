@@ -3,9 +3,20 @@ import 'dart:async';
 
 import 'package:alfred/alfred.dart';
 
+import '../interfaces/update_request.dart';
+
+
+
+
+
+
 
 FutureOr validateRegisterMiddleware(HttpRequest req, HttpResponse res) async {
-  // Parsear el cuerpo de la solicitud como un Map<String, dynamic>
+
+  final body = await req.bodyAsJsonMap;
+  final dynamicRequest = DynamicRequest( body);
+  dynamicRequest.validate(['email', 'password', 'name','role','department','position']);
+  /*// Parsear el cuerpo de la solicitud como un Map<String, dynamic>
   final body = await req.bodyAsJsonMap;
 
   // Extraer los campos email y password
@@ -14,6 +25,7 @@ FutureOr validateRegisterMiddleware(HttpRequest req, HttpResponse res) async {
   final role = body['role'] as String?;
   final name = body['name'] as String?;
   final department = body['department'] as String?;
+  final position = body['position'] as String?;
 
 
   // Validar que ambos campos existan
@@ -32,10 +44,13 @@ FutureOr validateRegisterMiddleware(HttpRequest req, HttpResponse res) async {
   if (department == null || department.isEmpty) {
     throw AlfredException(400, {'error': 'campo department requeridos'});
   }
+  if (position == null || position.isEmpty) {
+    throw AlfredException(400, {'error': 'campo cargo requeridos'});
+  }
   // Validar el formato del correo electrónico
   if (!RegExp(r'^[^\s@]+@[^\s@]+\.[^\s@]+$').hasMatch(email)) {
     throw AlfredException(400, {'error': 'El formato del correo electrónico es inválido'});
-  }
+  }*/
 }
 
 FutureOr checkPassWordLengthMiddleware(HttpRequest req, HttpResponse res) async {

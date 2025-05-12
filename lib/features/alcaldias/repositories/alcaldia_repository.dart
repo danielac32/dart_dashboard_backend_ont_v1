@@ -8,7 +8,6 @@ class AlcaldiaRepository {
   AlcaldiaRepository(this.store) {
     _alcaldiaBox = store.box<Alcaldia>();
   }
-
   int create(Alcaldia alcaldia) => _alcaldiaBox.put(alcaldia);
 
   List<Alcaldia> getAll() => _alcaldiaBox.getAll();

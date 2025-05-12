@@ -19,6 +19,14 @@ class DatabaseSeeder {
     final resumenBox = store.box<ResumenGestion>();
     final noticiaBox = store.box<Noticia>();
 
+    final roleBox = store.box<Role>();
+    final cargoBox = store.box<Cargo>();
+    final direccionBox = store.box<Direccion>();
+
+
+    roleBox.removeAll();
+    cargoBox.removeAll();
+    direccionBox.removeAll();
     // Limpiar datos existentes (opcional)
     userBox.removeAll();
     permissionBox.removeAll();
@@ -28,7 +36,150 @@ class DatabaseSeeder {
     mesBox.removeAll();
     resumenBox.removeAll();
     noticiaBox.removeAll();
+/**********************************************************/
+    final List<String> names = [
+      "Juan Perez",
+      "Maria Lopez",
+      "Carlos Ramirez",
+      "Ana Gomez",
+      "Luis Martinez",
+      "Laura Hernandez",
+      "Pedro Sanchez",
+      "Sofia Torres",
+      "Diego Flores",
+      "Camila Rios",
+      "Javier Mendoza",
+      "Valeria Castro",
+      "Fernando Silva",
+      "Isabella Morales",
+      "Ricardo Guzman",
+      "Daniela Vargas",
+      "Miguel Navarro",
+      "Gabriela Ortega",
+      "Andres Paredes",
+      "Carolina Jimenez",
+      "Alejandro Ruiz",
+      "Natalia Rojas",
+      "Oscar Acosta",
+      "Paula Vega",
+      "Victor Soto",
+      "Lucia Mora",
+      "Manuel Espinoza",
+      "Carmen Alvarado",
+      "Roberto Medina",
+      "Elena Chavez",
+      "Sebastian Ponce",
+      "Monica Salgado",
+      "Hugo Nunez",
+      "Adriana Aguilar",
+      "Julio Contreras",
+      "Veronica Molina",
+      "Raul Peña",
+      "Patricia Leon",
+      "Ernesto Bravo",
+      "Martha Campos",
+      "Alberto Zuniga",
+      "Beatriz Pacheco",
+      "Felipe Rosales",
+      "Gloria Villanueva",
+      "Rodrigo Galindo",
+      "Irene Calderon",
+      "Francisco Padilla",
+      "Claudia Fuentes",
+      "Arturo Velazquez"
+    ];
 
+    // Lista de roles disponibles
+    final List<String> roles = [
+      AppStrings.superAdmin,
+      AppStrings.departmentAdmin,
+      AppStrings.editor,
+      AppStrings.viewer,
+      AppStrings.guest,
+      AppStrings.user,
+      AppStrings.admin,
+    ];
+
+    // Lista de departamentos disponibles
+    final List<String> departments = [
+      AppStrings.dgAdministracion,
+      AppStrings.dgEgreso,
+      AppStrings.dgIngreso,
+      AppStrings.dgCuentaUnica,
+      AppStrings.dgTecnologiaInformacion,
+      AppStrings.dgPlanificacionAnalisisFinanciero,
+      AppStrings.dgRecursosHumanos,
+      AppStrings.dgInversionesYValores,
+      AppStrings.dgConsultoriaJuridica,
+    ];
+
+    // Lista de cargos disponibles
+    final List<String> positions = [
+      AppStrings.coordinador,
+      AppStrings.director_general,
+      AppStrings.director_linea,
+      AppStrings.asistente,
+      AppStrings.analista,
+      AppStrings.asesor,
+      AppStrings.consultor,
+      AppStrings.hp,
+      AppStrings.otro,
+    ];
+
+    for (int i = 0; i < 50; i++) {
+      final user = User(
+        email: 'user${i + 1}@example.com',
+        password: 'Password123!',
+        name: names[i % names.length],
+        role: roles[i % roles.length],
+        department: departments[i % departments.length],
+        isActive: true,
+        position: positions[i % positions.length],
+      );
+
+      // Guardar el usuario en la caja de Hive
+      userBox.put(user);
+    }
+
+
+    final listRoles = [
+      Role(name: 'SUPER_ADMIN'),
+      Role(name: 'DEPARTMENT_ADMIN'),
+      Role(name: 'EDITOR'),
+      Role(name: 'VIEWER'),
+      Role(name: 'GUEST'),
+      Role(name: 'USER'),
+      Role(name: 'ADMIN'),
+    ];
+    roleBox.putMany(listRoles);
+
+    final cargos = [
+      Cargo(name: 'COORDINADOR'),
+      Cargo(name: 'DIRECTOR GENERAL'),
+      Cargo(name: 'DIRECTOR DE LINEA'),
+      Cargo(name: 'ASISTENTE'),
+      Cargo(name: 'ANALISTA'),
+      Cargo(name: 'ASESOR'),
+      Cargo(name: 'CONSULTOR'),
+      Cargo(name: 'HP'),
+      Cargo(name: 'OTRO'),
+    ];
+    cargoBox.putMany(cargos);
+
+    final direcciones = [
+      Direccion(name: 'DIRECCIÓN GENERAL DE ADMINISTRACIÓN'),
+      Direccion(name: 'DIRECCIÓN GENERAL DE EGRESO'),
+      Direccion(name: 'DIRECCIÓN GENERAL DE INGRESO'),
+      Direccion(name: 'DIRECCIÓN GENERAL DE CUENTA ÚNICA'),
+      Direccion(name: 'DIRECCIÓN GENERAL DE TECNOLOGÍA DE INFORMACIÓN'),
+      Direccion(name: 'DIRECCIÓN GENERAL DE PLANIFICACIÓN Y ANÁLISIS FINANCIERO'),
+      Direccion(name: 'DIRECCIÓN GENERAL DE RECURSOS HUMANOS'),
+      Direccion(name: 'DIRECCIÓN GENERAL DE INVERSIONES Y VALORES'),
+      Direccion(name: 'DIRECCIÓN GENERAL DE CONSULTORÍA JURÍDICA'),
+    ];
+    direccionBox.putMany(direcciones);
+
+    /**********************************************************************/
     // 1. Crear usuarios básicos
     final superAdmin = User(
       email: 'admin@example.com',
@@ -36,8 +187,23 @@ class DatabaseSeeder {
       name: 'Administrador Principal',
       role: AppStrings.superAdmin,
       department: 'DGAdministracion',
+      isActive: true,
+      position: AppStrings.director_general,
     );
     userBox.put(superAdmin);
+
+    final superAdmin2 = User(
+      email: 'daniel@gmail.com',
+      password: '123456',
+      name: 'daniel quintero',
+      role: AppStrings.superAdmin,
+      department: AppStrings.dgTecnologiaInformacion,
+      isActive: true,
+      position: AppStrings.coordinador,
+    );
+    userBox.put(superAdmin2);
+
+
 
     final editor = User(
       email: 'editor@example.com',
@@ -45,6 +211,8 @@ class DatabaseSeeder {
       name: 'Editor General',
       role: AppStrings.editor,
       department: 'DGComunicacion',
+      isActive: true,
+
     );
     userBox.put(editor);
 
@@ -56,6 +224,17 @@ class DatabaseSeeder {
       canDelete: true,
       canPublish: true,
     );
+
+    final permiso2 = Permission(
+      section: AppStrings.alcaldias,
+      canCreate: true,
+      canEdit: true,
+      canDelete: true,
+      canPublish: true,
+    );
+    permiso2.user.target = superAdmin;
+    permissionBox.put(permiso2);
+
     permisoAdmin.user.target = superAdmin;
     permissionBox.put(permisoAdmin);
 
@@ -78,6 +257,22 @@ class DatabaseSeeder {
     );
     organismo1.autor.target = superAdmin;
     organismoBox.put(organismo1);
+    final organismo2 = OrganismoGobernacion(
+      nombre: 'Ministerio de Hacienda',
+      valor1: 100,
+      valor2: 200,
+      valor3: 300,
+    );
+    organismo2.autor.target = superAdmin;
+    organismoBox.put(organismo2);
+    final organismo3 = OrganismoGobernacion(
+      nombre: 'Ministerio de Hacienda',
+      valor1: 100,
+      valor2: 200,
+      valor3: 300,
+    );
+    organismo3.autor.target = superAdmin;
+    organismoBox.put(organismo3);
 
     // 4. Crear alcaldías con autor
     final alcaldia1 = Alcaldia(

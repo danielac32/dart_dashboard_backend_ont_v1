@@ -46,4 +46,146 @@ class UserRepository {
     return users;
   }
 
+  List<Permission> getPermissionsByUser(int userId) {
+    final user = _userBox.get(userId);
+    return user?.permissions.toList() ?? [];
+  }
+
+  bool addPermissionToUser(int userId, Permission permission) {
+    final user = _userBox.get(userId);
+    if (user != null) {
+      user.permissions.add(permission);
+      _userBox.put(user);
+      return true;
+    }
+    return false;
+  }
+
+  bool removePermissionFromUser(int userId, int permissionId) {
+    final user = _userBox.get(userId);
+    if (user != null) {
+      final permission = store.box<Permission>().get(permissionId);
+      if (permission != null) {
+        user.permissions.remove(permission);
+        _userBox.put(user);
+        return true;
+      }
+    }
+    return false;
+  }
+
+  List<OrganismoGobernacion> getOrganismosByUser(int userId) {
+    final user = _userBox.get(userId);
+    return user?.organismosGobernacion.toList() ?? [];
+  }
+
+  bool addOrganismoToUser(int userId, OrganismoGobernacion organismo) {
+    final user = _userBox.get(userId);
+    if (user != null) {
+      user.organismosGobernacion.add(organismo);
+      _userBox.put(user);
+      return true;
+    }
+    return false;
+  }
+
+  bool removeOrganismoFromUser(int userId, int organismoId) {
+    final user = _userBox.get(userId);
+    if (user != null) {
+      final organismo = store.box<OrganismoGobernacion>().get(organismoId);
+      if (organismo != null) {
+        user.organismosGobernacion.remove(organismo);
+        _userBox.put(user);
+        return true;
+      }
+    }
+    return false;
+  }
+
+  List<ProgramacionFinanciera> getProgramacionesByUser(int userId) {
+    final user = _userBox.get(userId);
+    return user?.programacionesFinancieras.toList() ?? [];
+  }
+
+  bool addProgramacionToUser(int userId, ProgramacionFinanciera programacion) {
+    final user = _userBox.get(userId);
+    if (user != null) {
+      user.programacionesFinancieras.add(programacion);
+      _userBox.put(user);
+      return true;
+    }
+    return false;
+  }
+
+  bool removeProgramacionFromUser(int userId, int programacionId) {
+    final user = _userBox.get(userId);
+    if (user != null) {
+      final programacion = store.box<ProgramacionFinanciera>().get(programacionId);
+      if (programacion != null) {
+        user.programacionesFinancieras.remove(programacion);
+        _userBox.put(user);
+        return true;
+      }
+    }
+    return false;
+  }
+
+  List<ResumenGestion> getResumenesByUser(int userId) {
+    final user = _userBox.get(userId);
+    return user?.resumenesGestion.toList() ?? [];
+  }
+
+  bool addResumenToUser(int userId, ResumenGestion resumen) {
+    final user = _userBox.get(userId);
+    if (user != null) {
+      user.resumenesGestion.add(resumen);
+      _userBox.put(user);
+      return true;
+    }
+    return false;
+  }
+
+  bool removeResumenFromUser(int userId, int resumenId) {
+    final user = _userBox.get(userId);
+    if (user != null) {
+      final resumen = store.box<ResumenGestion>().get(resumenId);
+      if (resumen != null) {
+        user.resumenesGestion.remove(resumen);
+        _userBox.put(user);
+        return true;
+      }
+    }
+    return false;
+  }
+
+  List<Noticia> getNoticiasByUser(int userId) {
+    final user = _userBox.get(userId);
+    return user?.noticias.toList() ?? [];
+  }
+
+  bool addNoticiaToUser(int userId, Noticia noticia) {
+    final user = _userBox.get(userId);
+    if (user != null) {
+      user.noticias.add(noticia);
+      _userBox.put(user);
+      return true;
+    }
+    return false;
+  }
+
+  bool removeNoticiaFromUser(int userId, int noticiaId) {
+    final user = _userBox.get(userId);
+    if (user != null) {
+      final noticia = store.box<Noticia>().get(noticiaId);
+      if (noticia != null) {
+        user.noticias.remove(noticia);
+        _userBox.put(user);
+        return true;
+      }
+    }
+    return false;
+  }
+
+
+
 }

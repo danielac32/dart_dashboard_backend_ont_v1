@@ -339,7 +339,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
     id: const obx_int.IdUid(8, 4006280500475729296),
     name: 'User',
-    lastPropertyId: const obx_int.IdUid(6, 4354208351656303735),
+    lastPropertyId: const obx_int.IdUid(10, 9027567166719068501),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
@@ -378,6 +378,30 @@ final _entities = <obx_int.ModelEntity>[
         type: 9,
         flags: 0,
       ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(7, 76082751438972915),
+        name: 'isActive',
+        type: 1,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(8, 6520927971229166274),
+        name: 'profileImage',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(9, 6361111703744880491),
+        name: 'position',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(10, 9027567166719068501),
+        name: 'updatedAt',
+        type: 10,
+        flags: 0,
+      ),
     ],
     relations: <obx_int.ModelRelation>[],
     backlinks: <obx_int.ModelBacklink>[
@@ -412,6 +436,72 @@ final _entities = <obx_int.ModelEntity>[
         srcField: 'autor',
       ),
     ],
+  ),
+  obx_int.ModelEntity(
+    id: const obx_int.IdUid(9, 8866356205039595064),
+    name: 'Cargo',
+    lastPropertyId: const obx_int.IdUid(2, 2253201313105236971),
+    flags: 0,
+    properties: <obx_int.ModelProperty>[
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(1, 1034807701709922633),
+        name: 'id',
+        type: 6,
+        flags: 1,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(2, 2253201313105236971),
+        name: 'name',
+        type: 9,
+        flags: 0,
+      ),
+    ],
+    relations: <obx_int.ModelRelation>[],
+    backlinks: <obx_int.ModelBacklink>[],
+  ),
+  obx_int.ModelEntity(
+    id: const obx_int.IdUid(10, 1100089187136652015),
+    name: 'Direccion',
+    lastPropertyId: const obx_int.IdUid(2, 1510083418649440820),
+    flags: 0,
+    properties: <obx_int.ModelProperty>[
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(1, 3866697558774261757),
+        name: 'id',
+        type: 6,
+        flags: 1,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(2, 1510083418649440820),
+        name: 'name',
+        type: 9,
+        flags: 0,
+      ),
+    ],
+    relations: <obx_int.ModelRelation>[],
+    backlinks: <obx_int.ModelBacklink>[],
+  ),
+  obx_int.ModelEntity(
+    id: const obx_int.IdUid(11, 8962008105408969153),
+    name: 'Role',
+    lastPropertyId: const obx_int.IdUid(2, 6238858291967041046),
+    flags: 0,
+    properties: <obx_int.ModelProperty>[
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(1, 6302901893960723708),
+        name: 'id',
+        type: 6,
+        flags: 1,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(2, 6238858291967041046),
+        name: 'name',
+        type: 9,
+        flags: 0,
+      ),
+    ],
+    relations: <obx_int.ModelRelation>[],
+    backlinks: <obx_int.ModelBacklink>[],
   ),
 ];
 
@@ -452,7 +542,7 @@ obx.Store openStore({
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
     entities: _entities,
-    lastEntityId: const obx_int.IdUid(8, 4006280500475729296),
+    lastEntityId: const obx_int.IdUid(11, 8962008105408969153),
     lastIndexId: const obx_int.IdUid(7, 2993736451981886850),
     lastRelationId: const obx_int.IdUid(1, 5877811884690987956),
     lastSequenceId: const obx_int.IdUid(0, 0),
@@ -905,13 +995,22 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final nameOffset = fbb.writeString(object.name);
         final roleOffset = fbb.writeString(object.role);
         final departmentOffset = fbb.writeString(object.department);
-        fbb.startTable(7);
+        final profileImageOffset =
+            object.profileImage == null
+                ? null
+                : fbb.writeString(object.profileImage!);
+        final positionOffset = fbb.writeString(object.position);
+        fbb.startTable(11);
         fbb.addInt64(0, object.id);
         fbb.addOffset(1, emailOffset);
         fbb.addOffset(2, passwordOffset);
         fbb.addOffset(3, nameOffset);
         fbb.addOffset(4, roleOffset);
         fbb.addOffset(5, departmentOffset);
+        fbb.addBool(6, object.isActive);
+        fbb.addOffset(7, profileImageOffset);
+        fbb.addOffset(8, positionOffset);
+        fbb.addInt64(9, object.updatedAt.millisecondsSinceEpoch);
         fbb.finish(fbb.endTable());
         return object.id;
       },
@@ -930,16 +1029,36 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final roleParam = const fb.StringReader(
           asciiOptimization: true,
         ).vTableGet(buffer, rootOffset, 12, '');
+        final isActiveParam = const fb.BoolReader().vTableGet(
+          buffer,
+          rootOffset,
+          16,
+          false,
+        );
+        final positionParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 20, '');
+        final profileImageParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGetNullable(buffer, rootOffset, 18);
         final departmentParam = const fb.StringReader(
           asciiOptimization: true,
         ).vTableGet(buffer, rootOffset, 14, '');
-        final object = User(
-          email: emailParam,
-          password: passwordParam,
-          name: nameParam,
-          role: roleParam,
-          department: departmentParam,
-        )..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+        final object =
+            User(
+                email: emailParam,
+                password: passwordParam,
+                name: nameParam,
+                role: roleParam,
+                isActive: isActiveParam,
+                position: positionParam,
+                profileImage: profileImageParam,
+                department: departmentParam,
+              )
+              ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0)
+              ..updatedAt = DateTime.fromMillisecondsSinceEpoch(
+                const fb.Int64Reader().vTableGet(buffer, rootOffset, 22, 0),
+              );
         obx_int.InternalToManyAccess.setRelInfo<User>(
           object.permissions,
           store,
@@ -994,6 +1113,90 @@ obx_int.ModelDefinition getObjectBoxModel() {
             (Noticia srcObject) => srcObject.autor,
           ),
         );
+        return object;
+      },
+    ),
+    Cargo: obx_int.EntityDefinition<Cargo>(
+      model: _entities[8],
+      toOneRelations: (Cargo object) => [],
+      toManyRelations: (Cargo object) => {},
+      getId: (Cargo object) => object.id,
+      setId: (Cargo object, int id) {
+        object.id = id;
+      },
+      objectToFB: (Cargo object, fb.Builder fbb) {
+        final nameOffset = fbb.writeString(object.name);
+        fbb.startTable(3);
+        fbb.addInt64(0, object.id);
+        fbb.addOffset(1, nameOffset);
+        fbb.finish(fbb.endTable());
+        return object.id;
+      },
+      objectFromFB: (obx.Store store, ByteData fbData) {
+        final buffer = fb.BufferContext(fbData);
+        final rootOffset = buffer.derefObject(0);
+        final nameParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 6, '');
+        final object = Cargo(name: nameParam)
+          ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+
+        return object;
+      },
+    ),
+    Direccion: obx_int.EntityDefinition<Direccion>(
+      model: _entities[9],
+      toOneRelations: (Direccion object) => [],
+      toManyRelations: (Direccion object) => {},
+      getId: (Direccion object) => object.id,
+      setId: (Direccion object, int id) {
+        object.id = id;
+      },
+      objectToFB: (Direccion object, fb.Builder fbb) {
+        final nameOffset = fbb.writeString(object.name);
+        fbb.startTable(3);
+        fbb.addInt64(0, object.id);
+        fbb.addOffset(1, nameOffset);
+        fbb.finish(fbb.endTable());
+        return object.id;
+      },
+      objectFromFB: (obx.Store store, ByteData fbData) {
+        final buffer = fb.BufferContext(fbData);
+        final rootOffset = buffer.derefObject(0);
+        final nameParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 6, '');
+        final object = Direccion(name: nameParam)
+          ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+
+        return object;
+      },
+    ),
+    Role: obx_int.EntityDefinition<Role>(
+      model: _entities[10],
+      toOneRelations: (Role object) => [],
+      toManyRelations: (Role object) => {},
+      getId: (Role object) => object.id,
+      setId: (Role object, int id) {
+        object.id = id;
+      },
+      objectToFB: (Role object, fb.Builder fbb) {
+        final nameOffset = fbb.writeString(object.name);
+        fbb.startTable(3);
+        fbb.addInt64(0, object.id);
+        fbb.addOffset(1, nameOffset);
+        fbb.finish(fbb.endTable());
+        return object.id;
+      },
+      objectFromFB: (obx.Store store, ByteData fbData) {
+        final buffer = fb.BufferContext(fbData);
+        final rootOffset = buffer.derefObject(0);
+        final nameParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 6, '');
+        final object = Role(name: nameParam)
+          ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+
         return object;
       },
     ),
@@ -1239,6 +1442,26 @@ class User_ {
     _entities[7].properties[5],
   );
 
+  /// See [User.isActive].
+  static final isActive = obx.QueryBooleanProperty<User>(
+    _entities[7].properties[6],
+  );
+
+  /// See [User.profileImage].
+  static final profileImage = obx.QueryStringProperty<User>(
+    _entities[7].properties[7],
+  );
+
+  /// See [User.position].
+  static final position = obx.QueryStringProperty<User>(
+    _entities[7].properties[8],
+  );
+
+  /// See [User.updatedAt].
+  static final updatedAt = obx.QueryDateProperty<User>(
+    _entities[7].properties[9],
+  );
+
   /// see [User.permissions]
   static final permissions = obx.QueryBacklinkToMany<Permission, User>(
     Permission_.user,
@@ -1269,5 +1492,40 @@ class User_ {
   /// see [User.noticias]
   static final noticias = obx.QueryBacklinkToMany<Noticia, User>(
     Noticia_.autor,
+  );
+}
+
+/// [Cargo] entity fields to define ObjectBox queries.
+class Cargo_ {
+  /// See [Cargo.id].
+  static final id = obx.QueryIntegerProperty<Cargo>(_entities[8].properties[0]);
+
+  /// See [Cargo.name].
+  static final name = obx.QueryStringProperty<Cargo>(
+    _entities[8].properties[1],
+  );
+}
+
+/// [Direccion] entity fields to define ObjectBox queries.
+class Direccion_ {
+  /// See [Direccion.id].
+  static final id = obx.QueryIntegerProperty<Direccion>(
+    _entities[9].properties[0],
+  );
+
+  /// See [Direccion.name].
+  static final name = obx.QueryStringProperty<Direccion>(
+    _entities[9].properties[1],
+  );
+}
+
+/// [Role] entity fields to define ObjectBox queries.
+class Role_ {
+  /// See [Role.id].
+  static final id = obx.QueryIntegerProperty<Role>(_entities[10].properties[0]);
+
+  /// See [Role.name].
+  static final name = obx.QueryStringProperty<Role>(
+    _entities[10].properties[1],
   );
 }
