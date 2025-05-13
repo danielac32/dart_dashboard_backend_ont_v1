@@ -203,7 +203,15 @@ class DatabaseSeeder {
     );
     userBox.put(superAdmin2);
 
-
+    final permiso3 = Permission(
+      section: AppStrings.alcaldias,
+      canCreate: true,
+      canEdit: true,
+      canDelete: false,
+      canPublish: true,
+    );
+    permiso3.user.target = superAdmin2;
+    permissionBox.put(permiso3);
 
     final editor = User(
       email: 'editor@example.com',

@@ -7,9 +7,10 @@ class UserService {
   final UserRepository _userRepository;
   UserService(this._userRepository);
 
-  Future<List<User>> getUsersByFilter({String? role, String? department}) async {
+  Future<List<User>> getUsersByFilter({String? role, String? department,String? status}) async {
     if (role != null) return _userRepository.getByRole(role);
     if (department != null) return _userRepository.getByDepartment(department);
+    if (status != null) return _userRepository.getByActive(status);
     return _userRepository.getAll();
   }
 

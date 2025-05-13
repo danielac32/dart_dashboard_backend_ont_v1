@@ -32,6 +32,30 @@ class UserRepository {
     return user;
   }
 
+
+  List<User> getByActive(String status) {
+    switch (status.toLowerCase()) {
+      case 'active':
+        final qActive = _userBox.query(User_.isActive.equals(true)).build();
+        final users = qActive.find();
+        qActive.close();
+        return users;
+
+      case 'inactive':
+        final qInactive = _userBox.query(User_.isActive.equals(false)).build();
+        final users = qInactive.find();
+        qInactive.close();
+        return users;
+
+      case 'all':
+        return _userBox.getAll();
+
+      default:
+        throw Exception("Status inválido. Usa 'active', 'inactive' o 'all'");
+    }
+  }
+
+
   List<User> getByRole(String role) {
     final query = _userBox.query(User_.role.equals(role)).build();
     final users = query.find();

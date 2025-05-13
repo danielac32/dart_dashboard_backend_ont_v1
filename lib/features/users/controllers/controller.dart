@@ -67,6 +67,23 @@ class AuthController{
 
  */
 
+  Future<Map<String, dynamic>> listFilter(HttpRequest request, HttpResponse response) async{
+    final params= request.uri.queryParameters['status'];
+
+    final users= await _userService.getUsersByFilter(status: params);
+
+    if(users.isEmpty){
+      return{
+        'success': true,
+        'users': 0
+      };
+    }
+    return{
+      'success': true,
+      'users': users
+    };
+  }
+
 
   Future<Map<String, dynamic>> list(HttpRequest request, HttpResponse response) async{
     final users= await _userService.getUsersByFilter();
@@ -108,7 +125,7 @@ class AuthController{
                                     profileImage: dynamicRequest.call('profileImage')
                                 );
 
-    print(userUpdate.toJson());
+    //print(userUpdate.toJson());
     final f= _userService.update(userUpdate);
    // user.name=dynamicRequest.call("name");
 
