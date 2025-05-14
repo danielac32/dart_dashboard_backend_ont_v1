@@ -23,7 +23,7 @@ class AppApi{
   AppApi({this.port=8080, required this.store});
 
   Future<void> start()async {
-    //app.all('*', cors(origin: 'myorigin.com'));
+    app.all('*', cors(origin: '*'));
 
     final userRepo=UserRepository(store);
     final direccionRepository=DireccionRepository(store);

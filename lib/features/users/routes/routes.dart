@@ -16,7 +16,7 @@ import '../middlewares/checkUpdate.dart';
 
 void authRoutes(String url,Alfred app,UserService userService){
   final authController= AuthController(userService);
-  app.post("${url}register", authController.register,middleware: [/*authMiddleware,*/validateRegisterMiddleware,checkPassWordLengthMiddleware]);
+  app.post("${url}register", authController.register,middleware: [/*authMiddleware,*/validateRegisterMiddleware/*,checkPassWordLengthMiddleware*/]);
   app.post("${url}login", authController.login,middleware: [validateLoginMiddleware]);
 }
 

@@ -59,6 +59,8 @@ class UserService {
     required String department,
     String role = AppStrings.user,
     required String position,
+    String? profileImage,
+
   }) async {
     if (_userRepository.getByEmail(email) != null) {
       throw Exception('El usuario con este email ya existe');
@@ -69,7 +71,9 @@ class UserService {
       name: name,
       department: department,
       role: role,
-      position: position
+      position: position,
+      profileImage: profileImage,
+
     );
     return _userRepository.create(user);
   }

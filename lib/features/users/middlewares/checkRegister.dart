@@ -15,7 +15,7 @@ FutureOr validateRegisterMiddleware(HttpRequest req, HttpResponse res) async {
 
   final body = await req.bodyAsJsonMap;
   final dynamicRequest = DynamicRequest( body);
-  dynamicRequest.validate(['email', 'password', 'name','role','department','position']);
+  dynamicRequest.validate(['email', 'name','role','department','position']);
   /*// Parsear el cuerpo de la solicitud como un Map<String, dynamic>
   final body = await req.bodyAsJsonMap;
 
