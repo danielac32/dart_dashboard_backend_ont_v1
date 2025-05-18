@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:alfred/alfred.dart';
+import 'package:dart_dashboard_backend_ont_v1/features/permissions/services/permission_service.dart';
 import 'package:dart_dashboard_backend_ont_v1/features/users/controllers/utils/getUser.dart';
 import 'package:dart_dashboard_backend_ont_v1/features/users/interfaces/register_request.dart';
 import 'package:dart_dashboard_backend_ont_v1/features/users/services/user_service.dart';
@@ -8,10 +9,11 @@ import 'dart:io';
 import '../../../config/jwt.dart';
 import '../interfaces/update_request.dart';
 
-class AuthController{
+class UserController{
   final UserService _userService;
-  AuthController(this._userService);
-
+  final PermissionService _permissionService;
+  UserController(this._userService, this._permissionService);
+/*
   Future<Map<String, dynamic>> login(HttpRequest request, HttpResponse response) async {
     try {
       final body = await request.bodyAsJsonMap;
@@ -82,6 +84,8 @@ class AuthController{
     }
   }
 
+
+ */
 
 /*
   Future<Map<String, dynamic>> getPaginator(HttpRequest request, HttpResponse response) async{
@@ -233,6 +237,39 @@ class AuthController{
     };
   }
 
+
+  Future<Map<String, dynamic>>updatePermissionFromUser(HttpRequest request, HttpResponse response) async {
+    final userId = request.params['id'];
+    User user = await getUserByIdEmail(_userService,userId);
+    //final permissionId = request.params['permissionId'];
+    final body = await request.bodyAsJsonMap;
+    final dynamicRequest = DynamicRequest(body);
+    final search= dynamicRequest.call("section");
+
+    final permission = _permissionService.getPermissionByUserAndSection(user.id, search);
+    if (permission == null) {
+      throw AlfredException(HttpStatus.notFound, {'error': 'Permiso no encontrado'});
+    }
+
+    final updatePermiso = permission.copyWith(
+      section: dynamicRequest.call('section'),
+      canCreate: dynamicRequest.call('canCreate'),
+      canEdit: dynamicRequest.call('canEdit'),
+      canDelete: dynamicRequest.call('canDelete'),
+      canPublish:dynamicRequest.call('canPublish'),
+    )..id = permission.id // Mantener el mismo ID
+      ..user.target = permission.user.target; // Mantener la relación
+
+
+    print(updatePermiso.toString());
+    final success = await _permissionService.update(updatePermiso);
+
+
+    return {
+      'success': success,
+      'message': 'Permission updated successfully',
+    };
+  }
   Future<Map<String, dynamic>> removePermissionFromUser(HttpRequest request, HttpResponse response) async {
 
     final userId = request.params['id'];

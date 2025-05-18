@@ -4,13 +4,16 @@ import 'dart:io';
 
 import 'package:alfred/alfred.dart';
 import 'package:dart_dashboard_backend_ont_v1/config/seeder.dart';
+import 'package:dart_dashboard_backend_ont_v1/features/permissions/repositories/permission_repository.dart';
 import 'package:dart_dashboard_backend_ont_v1/features/users/services/user_service.dart';
 import 'package:dart_dashboard_backend_ont_v1/utils/DireccionCargoRole/services/dcr_services.dart';
 
 import 'package:objectbox/objectbox.dart';
+import '../features/permissions/services/permission_service.dart';
 import '../features/users/repositories/user_repository.dart';
 import '../features/users/routes/routes.dart';
 import '../objectbox.g.dart';
+import '../shared/app_strings.dart';
 import '../utils/DireccionCargoRole/repository/dcr_repository.dart';
 import '../utils/DireccionCargoRole/routes/dcr_routes.dart';
 
@@ -29,18 +32,34 @@ class AppApi{
     final direccionRepository=DireccionRepository(store);
     final cargoRepository=CargoRepository(store);
     final roleRepository=RoleRepository(store);
+    final permissionRepository=PermissionRepository(store);
 
     final direccionService=DireccionService(direccionRepository);
     final cargoService=CargoService(cargoRepository);
     final roleService=RoleService(roleRepository);
+    final permissionService=PermissionService(permissionRepository);
 
     final userService=UserService(userRepo);
     authRoutes('auth/',app,userService);
-    userRoutes('user/',app,userService);
+    userRoutes('user/',app,userService,permissionService);
 
     direccionRoutes('direccion/',app,direccionService);
     cargoRoutes('cargo/',app,cargoService);
     rolRoutes('role/',app,roleService);
+    rolRoutes('role/',app,roleService);
+    app.get('sections/',(req, res) {
+       final List<String> Sections =[
+         AppStrings.organismosGobernacion,
+         AppStrings.alcaldias,
+         AppStrings.programacionFinanciera,
+         AppStrings.resumenGestion,
+         AppStrings.noticias
+       ];
+       return {
+          "sections":Sections
+       };
+    });
+
     //globalRoutes(app);
 
     app.all('*', (req, res)  async {

@@ -205,6 +205,22 @@ class Permission {
     this.canPublish = false,
   });
 
+  Permission copyWith({
+    String? section,
+    bool? canCreate,
+    bool? canEdit,
+    bool? canDelete,
+    bool? canPublish,
+  }) {
+    return Permission(
+      section: section ?? this.section,
+      canCreate: canCreate ?? this.canCreate,
+      canEdit: canEdit ?? this.canEdit,
+      canDelete: canDelete ?? this.canDelete,
+      canPublish: canPublish ?? this.canPublish,
+    );
+  }
+
   Map<String, dynamic> toJson() {
     return {
       'section':section,
@@ -213,6 +229,11 @@ class Permission {
       'canDelete': canDelete,
       'canPublish': canPublish,
     };
+  }
+  @override
+  String toString() {
+    // TODO: implement toString
+    return "$id - $section - $canCreate - $canDelete - $canEdit - $canPublish";
   }
 }
 

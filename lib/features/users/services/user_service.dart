@@ -80,6 +80,9 @@ class UserService {
 
   // Métodos para manejar las relaciones ToMany
 
+
+
+
   List<Permission> getPermissionsByUser(int userId) {
     try {
       return _userRepository.getPermissionsByUser(userId);

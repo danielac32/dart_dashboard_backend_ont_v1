@@ -125,6 +125,14 @@ class DatabaseSeeder {
       AppStrings.hp,
       AppStrings.otro,
     ];
+    final sections = [
+      AppStrings.alcaldias,
+      AppStrings.organismosGobernacion,
+      AppStrings.noticias,
+      AppStrings.programacionFinanciera,
+      AppStrings.resumenGestion,
+      // Agrega más secciones según sea necesario
+    ];
 
     for (int i = 0; i < 50; i++) {
       final user = User(
@@ -139,6 +147,17 @@ class DatabaseSeeder {
 
       // Guardar el usuario en la caja de Hive
       userBox.put(user);
+      for (final section in sections) {
+        final permiso = Permission(
+          section: section,
+          canCreate: false,
+          canEdit: false,
+          canDelete: false,
+          canPublish: false,
+        );
+        permiso.user.target = user;
+        permissionBox.put(permiso);
+      }
     }
 
 
@@ -191,6 +210,19 @@ class DatabaseSeeder {
       position: AppStrings.director_general,
     );
     userBox.put(superAdmin);
+    for (final section in sections) {
+      final permiso = Permission(
+        section: section,
+        canCreate: false,
+        canEdit: false,
+        canDelete: false,
+        canPublish: false,
+      );
+      permiso.user.target = superAdmin;
+      permissionBox.put(permiso);
+    }
+
+
 
     final superAdmin2 = User(
       email: 'daniel@gmail.com',
@@ -202,16 +234,18 @@ class DatabaseSeeder {
       position: AppStrings.coordinador,
     );
     userBox.put(superAdmin2);
+    for (final section in sections) {
+      final permiso = Permission(
+        section: section,
+        canCreate: false,
+        canEdit: false,
+        canDelete: false,
+        canPublish: false,
+      );
+      permiso.user.target = superAdmin2;
+      permissionBox.put(permiso);
+    }
 
-    final permiso3 = Permission(
-      section: AppStrings.alcaldias,
-      canCreate: true,
-      canEdit: true,
-      canDelete: false,
-      canPublish: true,
-    );
-    permiso3.user.target = superAdmin2;
-    permissionBox.put(permiso3);
 
     final editor = User(
       email: 'editor@example.com',
@@ -223,38 +257,17 @@ class DatabaseSeeder {
 
     );
     userBox.put(editor);
-
-    // 2. Crear permisos directamente relacionados
-    final permisoAdmin = Permission(
-      section: AppStrings.organismosGobernacion,
-      canCreate: true,
-      canEdit: true,
-      canDelete: true,
-      canPublish: true,
-    );
-
-    final permiso2 = Permission(
-      section: AppStrings.alcaldias,
-      canCreate: true,
-      canEdit: true,
-      canDelete: true,
-      canPublish: true,
-    );
-    permiso2.user.target = superAdmin;
-    permissionBox.put(permiso2);
-
-    permisoAdmin.user.target = superAdmin;
-    permissionBox.put(permisoAdmin);
-
-    final permisoEditor = Permission(
-      section: AppStrings.noticias,
-      canCreate: true,
-      canEdit: true,
-      canDelete: false,
-      canPublish: false,
-    );
-    permisoEditor.user.target = editor;
-    permissionBox.put(permisoEditor);
+    for (final section in sections) {
+      final permiso = Permission(
+        section: section,
+        canCreate: false,
+        canEdit: false,
+        canDelete: false,
+        canPublish: false,
+      );
+      permiso.user.target = editor;
+      permissionBox.put(permiso);
+    }
 
     // 3. Crear organismos con autor
     final organismo1 = OrganismoGobernacion(
