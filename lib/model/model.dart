@@ -62,6 +62,34 @@ class Direccion{
   }
 }
 
+
+
+
+@Entity()
+class MetaDato{
+  @Id()
+  int id = 0;
+  late int userId;
+  String? telefono;
+  String? centro_votacion;
+  String? cedula;
+  String? estado;
+  String? municipio;
+  String? parroquia;
+  final createdAt = DateTime.now();
+  late var updatedAt = DateTime.now();
+  MetaDato({
+        required this.userId,
+        this.telefono,
+        this.centro_votacion,
+        this.cedula,
+        this.estado,
+        this.municipio,
+        this.parroquia,
+  });
+}
+
+
 @Entity()
 class User {
   @Id()
@@ -108,24 +136,7 @@ class User {
     required this.department,
   });
 
-/*
-  User copyWith({
-    int? id,
-    String? email,
-    String? password,
-    String? name,
-    String? role,
-    String? department,
-    DateTime? updatedAt,
-  }) {
-    return User(
-      email: email ?? this.email,
-      password: password ?? this.password,
-      name: name ?? this.name,
-      role: role ?? this.role,
-      department: department ?? this.department,
-    )..updatedAt = updatedAt ?? DateTime.now();
-*/
+
   User copyWith({
     String? email,
     String? password,
@@ -146,14 +157,10 @@ class User {
     if (position != null) this.position=position;
     if( profileImage != null) this.profileImage=profileImage;
     // Actualizamos la fecha de modificación
-    this.updatedAt = DateTime.now();
-
+    updatedAt = DateTime.now();
     // Devolvemos la misma instancia
     return this;
   }
-
-
-
 
   // Método toJson() para serializar el objeto User
 
