@@ -41,8 +41,7 @@ class AppApi{
 
     final userService=UserService(userRepo);
     authRoutes('auth/',app,userService);
-    userRoutes('user/',app,userService,permissionService);
-
+    userRoutes(url: 'user/' ,app: app,userService: userService,permissionService: permissionService);
     direccionRoutes('direccion/',app,direccionService);
     cargoRoutes('cargo/',app,cargoService);
     rolRoutes('role/',app,roleService);

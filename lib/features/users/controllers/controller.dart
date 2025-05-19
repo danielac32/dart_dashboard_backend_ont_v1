@@ -260,10 +260,8 @@ class UserController{
     )..id = permission.id // Mantener el mismo ID
       ..user.target = permission.user.target; // Mantener la relación
 
-
     print(updatePermiso.toString());
     final success = await _permissionService.update(updatePermiso);
-
 
     return {
       'success': success,

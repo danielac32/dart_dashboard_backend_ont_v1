@@ -23,7 +23,7 @@ void authRoutes(String url,Alfred app,UserService userService){
   app.post("${url}login", authController.login,middleware: [validateLoginMiddleware]);
 }
 
-void userRoutes(String url,Alfred app,UserService userService, PermissionService permissionService){
+void userRoutes({required String url,required Alfred app,required UserService userService, required PermissionService permissionService}){
 
   final userController= UserController(userService,permissionService);
   // Endpoints básicos para User
