@@ -13,10 +13,11 @@ import '../features/permissions/services/permission_service.dart';
 import '../features/users/repositories/user_repository.dart';
 import '../features/users/routes/routes.dart';
 import '../objectbox.g.dart';
+import '../postgres/postgres.dart';
 import '../shared/app_strings.dart';
 import '../utils/DireccionCargoRole/repository/dcr_repository.dart';
 import '../utils/DireccionCargoRole/routes/dcr_routes.dart';
-
+import 'package:postgres/postgres.dart';
 
 class AppApi{
   final int port;
@@ -26,8 +27,9 @@ class AppApi{
   AppApi({this.port=8080, required this.store});
 
   Future<void> start()async {
-    app.all('*', cors(origin: '*'));
 
+
+    app.all('*', cors(origin: '*'));
     final userRepo=UserRepository(store);
     final direccionRepository=DireccionRepository(store);
     final cargoRepository=CargoRepository(store);
@@ -40,11 +42,11 @@ class AppApi{
     final permissionService=PermissionService(permissionRepository);
 
     final userService=UserService(userRepo);
+
     authRoutes('auth/',app,userService);
     userRoutes(url: 'user/' ,app: app,userService: userService,permissionService: permissionService);
     direccionRoutes('direccion/',app,direccionService);
     cargoRoutes('cargo/',app,cargoService);
-    rolRoutes('role/',app,roleService);
     rolRoutes('role/',app,roleService);
     app.get('sections/',(req, res) {
        final List<String> Sections =[
@@ -58,7 +60,7 @@ class AppApi{
           "sections":Sections
        };
     });
-
+    votacionRoute('votacion/',app);
     //globalRoutes(app);
 
     app.all('*', (req, res)  async {
@@ -73,6 +75,9 @@ class AppApi{
     app.all('*', (req, res) {
       res.headers.add('Access-Control-Allow-Origin', '*');
     });
+
+
+
 
     await app.listen(port);
     print('Servidor escuchando en http://localhost:$port');
@@ -95,7 +100,7 @@ Future<void> init_System({String env = 'development', int port = 8080,required b
   }
   // Inicializar la API con el puerto especificado
   final api = AppApi(port: port, store: store);
-
+  //await postgres();
   // Configurar comportamientos específicos según el entorno
   /*if (env == 'production') {
     print('Modo de producción activado.');

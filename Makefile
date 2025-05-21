@@ -12,8 +12,7 @@ migrate:
 	dart run build_runner build
 run:
 	#dart run
-	dart bin/dart_dashboard_backend_ont_v1.dart --env=development --port=8080
-
+	dart bin/dart_dashboard_backend_ont_v1.dart --env=development --port=8085
 help:
 	dart bin/dart_dashboard_backend_ont_v1.dart --help
 compile:
