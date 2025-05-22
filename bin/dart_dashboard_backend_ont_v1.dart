@@ -1,8 +1,10 @@
 import 'dart:io';
 import 'package:dart_dashboard_backend_ont_v1/config/init.dart';
 
+
 Future<void> main(List<String> arguments) async {
   // Verificar si no se proporcionaron argumentos
+
   if (arguments.isEmpty) {
     print('No se proporcionaron argumentos. Usa --help para más información.');
     return;

@@ -17,12 +17,12 @@ class DatabaseService {
       ),
       settings: ConnectionSettings(sslMode: SslMode.disable),
     );
-    print('Conexión establecida con PostgreSQL');
+   // print('Conexión establecida con PostgreSQL');
   }
 
   Future<void> close() async {
     await _connection.close();
-    print('Conexión cerrada');
+    //print('Conexión cerrada');
   }
 
 
@@ -156,6 +156,88 @@ class DatabaseService {
     }).toList();
   }
 
+  Future<List<Map<String, dynamic>>> getEmpleadosFilter({required bool voto}) async {
+    final result = await _connection.execute(
+      Sql(r'''
+      SELECT 
+        e.id as empleado_id,
+        e.nombre,
+        e.cedula,
+        e.direccion_id,
+        e.centro_votacion,
+        e.voto,
+        e.votostr,
+        d.id as direccion_id,
+        d.direccion
+      FROM empleado e
+      JOIN direccion d ON e.direccion_id = d.id
+      WHERE e.voto =  $1   
+    '''),
+      parameters: [
+        voto
+      ],
+    );
+
+    return result.map((row) {
+      final columnMap = row.toColumnMap();
+      return {
+        'id': columnMap['empleado_id'],
+        'nombre': columnMap['nombre'],
+        'cedula': columnMap['cedula'],
+        'direccion_id': columnMap['direccion_id'],
+        'centro_votacion': columnMap['centro_votacion'],
+        'voto': columnMap['voto'],
+        'votostr': columnMap['votostr'],
+        'direccion': {
+          'id': columnMap['direccion_id'],
+          'direccion': columnMap['direccion'],
+        },
+      };
+    }).toList();
+  }
+
+
+  Future<List<Map<String, dynamic>>> getEmpleadosDireccion({required String direccion}) async {
+    final result = await _connection.execute(
+      Sql(r'''
+      SELECT 
+        e.id as empleado_id,
+        e.nombre,
+        e.cedula,
+        e.direccion_id,
+        e.centro_votacion,
+        e.voto,
+        e.votostr,
+        d.id as direccion_id,
+        d.direccion
+      FROM empleado e
+      JOIN direccion d ON e.direccion_id = d.id
+      WHERE d.direccion = $1  -- Aquí está el cambio: filtramos por nombre de dirección
+    '''),
+      parameters: [
+        direccion, // El valor del filtro
+      ],
+    );
+
+    return result.map((row) {
+      final columnMap = row.toColumnMap();
+      return {
+        'id': columnMap['empleado_id'],
+        'nombre': columnMap['nombre'],
+        'cedula': columnMap['cedula'],
+        'direccion_id': columnMap['direccion_id'],
+        'centro_votacion': columnMap['centro_votacion'],
+        'voto': columnMap['voto'],
+        'votostr': columnMap['votostr'],
+        'direccion': {
+          'id': columnMap['direccion_id'],
+          'direccion': columnMap['direccion'],
+        },
+      };
+    }).toList();
+  }
+
+
   Future<void> updateVotoStatus(int empleadoId, bool voto) async {
     await _connection.execute(
       Sql(r'UPDATE empleado SET voto = $1, votostr = $2 WHERE id = $3'),
@@ -166,6 +248,18 @@ class DatabaseService {
       ],
     );
   }
+
+  Future<void> updateVotoStatusAll( bool voto) async {
+    await _connection.execute(
+      Sql(r'UPDATE empleado SET voto = $1, votostr = $2'),
+      parameters: [
+        voto,
+        voto ? 'VOTÓ' : 'NO VOTO',
+      ],
+    );
+  }
+
+
   Future<int> getCountByDireccion(String direccion) async {
     try {
       final result = await _connection.execute(
@@ -219,6 +313,9 @@ void votacionRoute(String url,Alfred app){
     }
   });
 
+
+
+
   app.get('${url}empleado/direccion',(req, res) async {
     final dbService = DatabaseService();
     try{
@@ -240,6 +337,33 @@ void votacionRoute(String url,Alfred app){
     try{
       await dbService.connect();
       final empleados = await dbService.getEmpleados();
+      return{
+        "empleado": empleados
+      };
+
+    }catch (e) {
+      print('Error: $e');
+    } finally {
+      await dbService.close();
+    }
+  });
+
+  app.get('${url}empleado/filter',(req, res) async {
+    final params = req.uri.queryParameters['status'];
+    final dbService = DatabaseService();
+    try{
+      await dbService.connect();
+      late final empleados;
+      print(params);
+      if(params=="all"){
+         empleados = await dbService.getEmpleados();
+      }else if(params=='no'){
+         empleados = await dbService.getEmpleadosFilter(voto: false);
+      }else if(params=='si'){
+         empleados = await dbService.getEmpleadosFilter(voto: true);
+      }else{
+        empleados = await dbService.getEmpleadosDireccion(direccion: params!);
+      }
       return{
         "empleado": empleados
       };
@@ -273,6 +397,27 @@ void votacionRoute(String url,Alfred app){
       } finally {
          await dbService.close();
       }
+  });
+  app.patch('${url}empleado-all/',(req, res) async {
+    final body = await req.bodyAsJsonMap;
+    final dynamicRequest = DynamicRequest(body);
+
+    final dbService = DatabaseService();
+    try{
+      await dbService.connect();
+      final voto=dynamicRequest.call("voto");
+
+      print(" voto: ${voto} ");
+      await dbService.updateVotoStatusAll(voto);
+
+      return{
+        "susses":true
+      };
+    }catch (e) {
+      print('Error: $e');
+    } finally {
+      await dbService.close();
+    }
   });
 }
 
