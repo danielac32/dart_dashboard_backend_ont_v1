@@ -1,8 +1,186 @@
+import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:dart_dashboard_backend_ont_v1/config/init.dart';
+
+/*
+// router.dart
+class User {
+  final int id;
+  late final String name;
+  late final String email;
+
+  User({required this.id, required this.name, required this.email});
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'email': email,
+    };
+  }
+
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      id: json['id'],
+      name: json['name'],
+      email: json['email'],
+    );
+  }
+}
+
+//
+class UserRepository {
+  final List<User> _users = [];
+
+  List<User> getAll() {
+    return [..._users];
+  }
+
+  User? getById(int id) {
+    return _users.firstWhere((user) => user.id == id,/* orElse: () => null*/);
+  }
+
+  User create(String name, String email) {
+    final newUser = User(id: _users.length + 1, name: name, email: email);
+    _users.add(newUser);
+    return newUser;
+  }
+
+  User update(int id, String name, String email) {
+    final user = getById(id);
+    if (user == null) {
+      throw Exception('User not found');
+    }
+    user.name = name;
+    user.email = email;
+    return user;
+  }
+
+  void delete(int id) {
+    final index = _users.indexWhere((user) => user.id == id);
+    if (index == -1) {
+      throw Exception('User not found');
+    }
+    _users.removeAt(index);
+  }
+}
+
+
+class Router {
+  final Map<String, Function(HttpRequest)> routes = {};
+
+  void addRoute(String method, String path, Function(HttpRequest) handler) {
+    final key = '$method $path';
+    routes[key] = handler;
+  }
+
+  void handleRequest(HttpRequest request) {
+    final method = request.method;
+    final path = request.requestedUri.path;
+    final key = '$method $path';
+
+    final handler = routes[key];
+
+    if (handler != null) {
+      handler(request);
+    } else {
+      request.response.statusCode = HttpStatus.notFound;
+      request.response.write('Not Found');
+      request.response.close();
+    }
+  }
+}
+
+class UserController {
+  final UserRepository _repository = UserRepository();
+
+  List<User> getAllUsers() {
+    return _repository.getAll();
+  }
+
+  User getUserById(int id) {
+    return _repository.getById(id)!;
+  }
+
+  User createUser(String name, String email) {
+    return _repository.create(name, email);
+  }
+
+  User updateUser(int id, String name, String email) {
+    return _repository.update(id, name, email);
+  }
+
+  void deleteUser(int id) {
+    _repository.delete(id);
+  }
+}
+
+ */
+
+
+
 
 
 Future<void> main(List<String> arguments) async {
+
+/*
+  final router = Router();
+  final controller = UserController();
+
+  // Rutas CRUD
+  router.addRoute('GET', '/users', (HttpRequest request) {
+    final users = controller.getAllUsers();
+    final response = jsonEncode(users.map((user) => user.toJson()).toList());
+    request.response.write(response);
+    request.response.close();
+  });
+
+  router.addRoute('GET', '/users/{id}', (HttpRequest request) {
+    final id = int.parse(Uri.parse(request.requestedUri.path).pathSegments.last);
+    final user = controller.getUserById(id);
+    final response = jsonEncode(user.toJson());
+    request.response.write(response);
+  });
+
+  router.addRoute('POST', '/users', (HttpRequest request) async {
+    final body = await utf8.decoder.bind(request).join();
+    final data = jsonDecode(body);
+    final user = controller.createUser(data['name'], data['email']);
+    final response = jsonEncode(user.toJson());
+    request.response.write(response);
+    request.response.close();
+  });
+
+  router.addRoute('PUT', '/users/{id}', (HttpRequest request) async {
+    final id = int.parse(Uri.parse(request.requestedUri.path).pathSegments.last);
+    final body = await utf8.decoder.bind(request).join();
+    final data = jsonDecode(body);
+    final user = controller.updateUser(id, data['name'], data['email']);
+    final response = jsonEncode(user.toJson());
+    request.response.write(response);
+    request.response.close();
+  });
+
+  router.addRoute('DELETE', '/users/{id}', (HttpRequest request) {
+    final id = int.parse(Uri.parse(request.requestedUri.path).pathSegments.last);
+    controller.deleteUser(id);
+    request.response.write('User deleted');
+    request.response.close();
+  });
+
+  // Iniciar servidor
+  HttpServer.bind('localhost', 3000).then((server) {
+    print('Servidor corriendo en http://localhost:3000');
+    server.listen((request) {
+      router.handleRequest(request);
+    });
+  });
+*/
+
+
+  //return;
   // Verificar si no se proporcionaron argumentos
 
   if (arguments.isEmpty) {
