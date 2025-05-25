@@ -398,9 +398,63 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "12:950639297170186081",
+      "lastPropertyId": "9:4052863002947031075",
+      "name": "MetaDato",
+      "properties": [
+        {
+          "id": "1:315141676550689534",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:7969341761570664227",
+          "name": "userId",
+          "type": 6
+        },
+        {
+          "id": "3:4829149754345352606",
+          "name": "telefono",
+          "type": 9
+        },
+        {
+          "id": "4:3516484252566513392",
+          "name": "centro_votacion",
+          "type": 9
+        },
+        {
+          "id": "5:5323258069972935865",
+          "name": "cedula",
+          "type": 9
+        },
+        {
+          "id": "6:6219347074540292938",
+          "name": "estado",
+          "type": 9
+        },
+        {
+          "id": "7:5112022614038915130",
+          "name": "municipio",
+          "type": 9
+        },
+        {
+          "id": "8:1229966800187227101",
+          "name": "parroquia",
+          "type": 9
+        },
+        {
+          "id": "9:4052863002947031075",
+          "name": "updatedAt",
+          "type": 10
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "11:8962008105408969153",
+  "lastEntityId": "12:950639297170186081",
   "lastIndexId": "7:2993736451981886850",
   "lastRelationId": "1:5877811884690987956",
   "lastSequenceId": "0:0",

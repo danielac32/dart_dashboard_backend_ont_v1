@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:alfred/alfred.dart';
+
 import 'package:dart_dashboard_backend_ont_v1/config/init.dart';
 
 /*
@@ -120,10 +122,44 @@ class UserController {
  */
 
 
+class Router {
+  final Map<String, Function(HttpRequest)> routes = {};
 
+  void addRoute(String method, String path, Function(HttpRequest) handler) {
+    final key = '$method $path';
+    routes[key] = handler;
+  }
 
+  void handleRequest(HttpRequest request) {
+    final method = request.method;
+    final path = request.requestedUri.path;
+    final key = '$method $path';
+
+    final handler = routes[key];
+
+    if (handler != null) {
+      handler(request);
+    } else {
+      request.response.statusCode = HttpStatus.notFound;
+      request.response.write('Not Found');
+      request.response.close();
+    }
+  }
+}
 
 Future<void> main(List<String> arguments) async {
+
+  final router = Router();
+
+  // Llama a la función generada para registrar rutas
+  registerRoutes(router);
+
+  HttpServer.bind('localhost', 3000).then((server) {
+    print('Servidor corriendo en http://localhost:3000');
+    server.listen((request) {
+      router.handleRequest(request);
+    });
+  });
 
 /*
   final router = Router();
@@ -279,6 +315,8 @@ Future<void> main(List<String> arguments) async {
   // Inicializar el sistema con los parámetros obtenidos
   init_System(env: env, port: portString != null ? int.parse(portString) : 8080,seed: seed);
 }
+
+
 
 // Función para simular el proceso de seeding
 void seedDatabase() {

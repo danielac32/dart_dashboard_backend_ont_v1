@@ -503,6 +503,70 @@ final _entities = <obx_int.ModelEntity>[
     relations: <obx_int.ModelRelation>[],
     backlinks: <obx_int.ModelBacklink>[],
   ),
+  obx_int.ModelEntity(
+    id: const obx_int.IdUid(12, 950639297170186081),
+    name: 'MetaDato',
+    lastPropertyId: const obx_int.IdUid(9, 4052863002947031075),
+    flags: 0,
+    properties: <obx_int.ModelProperty>[
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(1, 315141676550689534),
+        name: 'id',
+        type: 6,
+        flags: 1,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(2, 7969341761570664227),
+        name: 'userId',
+        type: 6,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(3, 4829149754345352606),
+        name: 'telefono',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(4, 3516484252566513392),
+        name: 'centro_votacion',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(5, 5323258069972935865),
+        name: 'cedula',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(6, 6219347074540292938),
+        name: 'estado',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(7, 5112022614038915130),
+        name: 'municipio',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(8, 1229966800187227101),
+        name: 'parroquia',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(9, 4052863002947031075),
+        name: 'updatedAt',
+        type: 10,
+        flags: 0,
+      ),
+    ],
+    relations: <obx_int.ModelRelation>[],
+    backlinks: <obx_int.ModelBacklink>[],
+  ),
 ];
 
 /// Shortcut for [obx.Store.new] that passes [getObjectBoxModel] and for Flutter
@@ -542,7 +606,7 @@ obx.Store openStore({
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
     entities: _entities,
-    lastEntityId: const obx_int.IdUid(11, 8962008105408969153),
+    lastEntityId: const obx_int.IdUid(12, 950639297170186081),
     lastIndexId: const obx_int.IdUid(7, 2993736451981886850),
     lastRelationId: const obx_int.IdUid(1, 5877811884690987956),
     lastSequenceId: const obx_int.IdUid(0, 0),
@@ -1200,6 +1264,91 @@ obx_int.ModelDefinition getObjectBoxModel() {
         return object;
       },
     ),
+    MetaDato: obx_int.EntityDefinition<MetaDato>(
+      model: _entities[11],
+      toOneRelations: (MetaDato object) => [],
+      toManyRelations: (MetaDato object) => {},
+      getId: (MetaDato object) => object.id,
+      setId: (MetaDato object, int id) {
+        object.id = id;
+      },
+      objectToFB: (MetaDato object, fb.Builder fbb) {
+        final telefonoOffset =
+            object.telefono == null ? null : fbb.writeString(object.telefono!);
+        final centro_votacionOffset =
+            object.centro_votacion == null
+                ? null
+                : fbb.writeString(object.centro_votacion!);
+        final cedulaOffset =
+            object.cedula == null ? null : fbb.writeString(object.cedula!);
+        final estadoOffset =
+            object.estado == null ? null : fbb.writeString(object.estado!);
+        final municipioOffset =
+            object.municipio == null
+                ? null
+                : fbb.writeString(object.municipio!);
+        final parroquiaOffset =
+            object.parroquia == null
+                ? null
+                : fbb.writeString(object.parroquia!);
+        fbb.startTable(10);
+        fbb.addInt64(0, object.id);
+        fbb.addInt64(1, object.userId);
+        fbb.addOffset(2, telefonoOffset);
+        fbb.addOffset(3, centro_votacionOffset);
+        fbb.addOffset(4, cedulaOffset);
+        fbb.addOffset(5, estadoOffset);
+        fbb.addOffset(6, municipioOffset);
+        fbb.addOffset(7, parroquiaOffset);
+        fbb.addInt64(8, object.updatedAt.millisecondsSinceEpoch);
+        fbb.finish(fbb.endTable());
+        return object.id;
+      },
+      objectFromFB: (obx.Store store, ByteData fbData) {
+        final buffer = fb.BufferContext(fbData);
+        final rootOffset = buffer.derefObject(0);
+        final userIdParam = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          6,
+          0,
+        );
+        final telefonoParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGetNullable(buffer, rootOffset, 8);
+        final centro_votacionParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGetNullable(buffer, rootOffset, 10);
+        final cedulaParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGetNullable(buffer, rootOffset, 12);
+        final estadoParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGetNullable(buffer, rootOffset, 14);
+        final municipioParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGetNullable(buffer, rootOffset, 16);
+        final parroquiaParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGetNullable(buffer, rootOffset, 18);
+        final object =
+            MetaDato(
+                userId: userIdParam,
+                telefono: telefonoParam,
+                centro_votacion: centro_votacionParam,
+                cedula: cedulaParam,
+                estado: estadoParam,
+                municipio: municipioParam,
+                parroquia: parroquiaParam,
+              )
+              ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0)
+              ..updatedAt = DateTime.fromMillisecondsSinceEpoch(
+                const fb.Int64Reader().vTableGet(buffer, rootOffset, 20, 0),
+              );
+
+        return object;
+      },
+    ),
   };
 
   return obx_int.ModelDefinition(model, bindings);
@@ -1527,5 +1676,53 @@ class Role_ {
   /// See [Role.name].
   static final name = obx.QueryStringProperty<Role>(
     _entities[10].properties[1],
+  );
+}
+
+/// [MetaDato] entity fields to define ObjectBox queries.
+class MetaDato_ {
+  /// See [MetaDato.id].
+  static final id = obx.QueryIntegerProperty<MetaDato>(
+    _entities[11].properties[0],
+  );
+
+  /// See [MetaDato.userId].
+  static final userId = obx.QueryIntegerProperty<MetaDato>(
+    _entities[11].properties[1],
+  );
+
+  /// See [MetaDato.telefono].
+  static final telefono = obx.QueryStringProperty<MetaDato>(
+    _entities[11].properties[2],
+  );
+
+  /// See [MetaDato.centro_votacion].
+  static final centro_votacion = obx.QueryStringProperty<MetaDato>(
+    _entities[11].properties[3],
+  );
+
+  /// See [MetaDato.cedula].
+  static final cedula = obx.QueryStringProperty<MetaDato>(
+    _entities[11].properties[4],
+  );
+
+  /// See [MetaDato.estado].
+  static final estado = obx.QueryStringProperty<MetaDato>(
+    _entities[11].properties[5],
+  );
+
+  /// See [MetaDato.municipio].
+  static final municipio = obx.QueryStringProperty<MetaDato>(
+    _entities[11].properties[6],
+  );
+
+  /// See [MetaDato.parroquia].
+  static final parroquia = obx.QueryStringProperty<MetaDato>(
+    _entities[11].properties[7],
+  );
+
+  /// See [MetaDato.updatedAt].
+  static final updatedAt = obx.QueryDateProperty<MetaDato>(
+    _entities[11].properties[8],
   );
 }
