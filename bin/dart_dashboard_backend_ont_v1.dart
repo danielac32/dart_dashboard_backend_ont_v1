@@ -149,17 +149,7 @@ class Router {
 
 Future<void> main(List<String> arguments) async {
 
-  final router = Router();
 
-  // Llama a la función generada para registrar rutas
-  registerRoutes(router);
-
-  HttpServer.bind('localhost', 3000).then((server) {
-    print('Servidor corriendo en http://localhost:3000');
-    server.listen((request) {
-      router.handleRequest(request);
-    });
-  });
 
 /*
   final router = Router();
