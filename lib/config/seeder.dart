@@ -126,8 +126,10 @@ class DatabaseSeeder {
       AppStrings.otro,
     ];
     final sections = [
+      AppStrings.carrusel,
       AppStrings.alcaldias,
-      AppStrings.organismosGobernacion,
+      AppStrings.organismos,
+      AppStrings.gobernacion,
       AppStrings.noticias,
       AppStrings.programacionFinanciera,
       AppStrings.resumenGestion,

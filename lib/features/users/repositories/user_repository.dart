@@ -3,16 +3,50 @@ import 'package:objectbox/objectbox.dart';
 
 import '../../../model/model.dart';
 import '../../../objectbox.g.dart';
+import '../../../shared/app_strings.dart';
 
 
 class UserRepository {
   final Store store;
   late final Box<User> _userBox;
+  late final Box<Permission> _permissionBox;
+
+  final sections = [
+    AppStrings.carrusel,
+    AppStrings.alcaldias,
+    AppStrings.organismos,
+    AppStrings.gobernacion,
+    AppStrings.noticias,
+    AppStrings.programacionFinanciera,
+    AppStrings.resumenGestion,
+    // Agrega más secciones según sea necesario
+  ];
 
   UserRepository(this.store) {
     _userBox = store.box<User>();
+    _permissionBox = store.box<Permission>();
   }
   List<User> getAll() => _userBox.getAll();
+
+
+  int createUserWithPermissions(User user){
+
+    final userId = _userBox.put(user);
+
+    for (final section in sections) {
+      final permiso = Permission(
+        section: section,
+        canCreate: false,
+        canEdit: false,
+        canDelete: false,
+        canPublish: false,
+      );
+      permiso.user.target = user;
+      _permissionBox.put(permiso);
+    }
+
+    return userId; // Ahora sí tiene sentido
+  }
 
   int create(User user) => _userBox.put(user);
 

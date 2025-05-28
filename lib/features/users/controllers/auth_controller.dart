@@ -7,7 +7,11 @@ import 'package:alfred/alfred.dart';
 import 'package:dart_dashboard_backend_ont_v1/features/users/services/user_service.dart';
 
 import '../../../config/jwt.dart';
+import '../../../shared/app_strings.dart';
 import '../interfaces/update_request.dart';
+
+
+
 
 class AuthController {
       final UserService _userService;
@@ -51,7 +55,7 @@ class AuthController {
           }
 
 
-          final register = await _userService.register(
+          final register = await _userService.registerWithPermission(
               email: dynamicRequest.call('email'),
               password: dynamicRequest.call('password'),
               name: dynamicRequest.call('name'),
@@ -60,6 +64,9 @@ class AuthController {
               position: dynamicRequest.call('position'),
               profileImage: dynamicRequest.call('profileImage')
           );
+
+
+
 
           if (register > 0) {
             return {

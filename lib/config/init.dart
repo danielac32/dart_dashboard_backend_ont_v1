@@ -9,6 +9,7 @@ import 'package:dart_dashboard_backend_ont_v1/features/users/services/user_servi
 import 'package:dart_dashboard_backend_ont_v1/utils/DireccionCargoRole/services/dcr_services.dart';
 
 import 'package:objectbox/objectbox.dart';
+import '../features/media/routes/media_routes.dart';
 import '../features/permissions/services/permission_service.dart';
 import '../features/users/repositories/user_repository.dart';
 import '../features/users/routes/routes.dart';
@@ -48,18 +49,9 @@ class AppApi{
     direccionRoutes('direccion/',app,direccionService);
     cargoRoutes('cargo/',app,cargoService);
     rolRoutes('role/',app,roleService);
-    app.get('sections/',(req, res) {
-       final List<String> Sections =[
-         AppStrings.organismosGobernacion,
-         AppStrings.alcaldias,
-         AppStrings.programacionFinanciera,
-         AppStrings.resumenGestion,
-         AppStrings.noticias
-       ];
-       return {
-          "sections":Sections
-       };
-    });
+    mediaRoutes('media/',app);
+
+
     votacionRoute('votacion/',app);
     //globalRoutes(app);
 

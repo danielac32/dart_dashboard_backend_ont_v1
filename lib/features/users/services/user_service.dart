@@ -78,6 +78,34 @@ class UserService {
     return _userRepository.create(user);
   }
 
+
+
+  Future<int> registerWithPermission({
+    required String email,
+    required String password,
+    required String name,
+    required String department,
+    String role = AppStrings.user,
+    required String position,
+    String? profileImage,
+
+  }) async {
+    if (_userRepository.getByEmail(email) != null) {
+      throw Exception('El usuario con este email ya existe');
+    }
+    final user = User(
+      email: email,
+      password: password,
+      name: name,
+      department: department,
+      role: role,
+      position: position,
+      profileImage: profileImage,
+
+    );
+    return await _userRepository.createUserWithPermissions(user);
+  }
+
   // Métodos para manejar las relaciones ToMany
 
 

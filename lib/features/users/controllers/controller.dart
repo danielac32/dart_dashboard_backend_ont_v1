@@ -103,7 +103,7 @@ class UserController{
 
       return {
         'success': true,
-        'users': users.isEmpty ? 0 : users
+        'users': users.isEmpty ? [] : users
       };
     } catch (e) {
       throw AlfredException(HttpStatus.internalServerError, {'error': e.toString()});

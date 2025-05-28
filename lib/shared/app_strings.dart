@@ -25,7 +25,9 @@ abstract class AppStrings {
 
 
   // Secciones para permisos
-  static const String organismosGobernacion = 'ORGANISMOS_GOBERNACION';
+  static const String carrusel = 'CARRUSEL';
+  static const String organismos = 'ORGANISMOS';
+  static const String gobernacion = 'GOBERNACION';
   static const String alcaldias = 'ALCALDIAS';
   static const String programacionFinanciera = 'PROGRAMACION_FINANCIERA';
   static const String resumenGestion = 'RESUMEN_GESTION';
@@ -59,3 +61,14 @@ static const String hp="HP";
 static const String otro="OTRO";
 
 }
+
+final sections = [
+  AppStrings.carrusel,
+  AppStrings.alcaldias,
+  AppStrings.organismos,
+  AppStrings.gobernacion,
+  AppStrings.noticias,
+  AppStrings.programacionFinanciera,
+  AppStrings.resumenGestion,
+  // Agrega más secciones según sea necesario
+];
