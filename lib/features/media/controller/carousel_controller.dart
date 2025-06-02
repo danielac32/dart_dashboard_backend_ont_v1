@@ -1,6 +1,7 @@
 
 
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:alfred/alfred.dart';
@@ -119,21 +120,38 @@ class CarouselController{
 
   Future<Map<String, dynamic>> upload(HttpRequest request, HttpResponse response) async {
     try {
-      final _carouselDirectory = Directory('assets/carrusel');
+      final carouselDir = Directory('assets/carrusel');
+
+      if (!await carouselDir.exists()) {
+        await carouselDir.create(recursive: true);
+      }
 
       final body = await request.bodyAsJsonMap;
-      final uploadedFile = body['file'] as HttpBodyFileUpload;
 
-      // Crear directorio si no existe
-      if (!await _carouselDirectory.exists()) {
-        await _carouselDirectory.create(recursive: true);
+      final fileData = body['file'];
+
+      if (fileData is! Map || !fileData.containsKey('filename') || !fileData.containsKey('content')) {
+        throw AlfredException(400, 'Datos de archivo inválidos');
       }
-      // Generar nombre único
-      final filename = 'img_${DateTime.now().millisecondsSinceEpoch}.${uploadedFile.filename?.split('.').last ?? 'jpg'}';
 
-      // Guardar la imagen
-      await File('${_carouselDirectory.path}/$filename')
-          .writeAsBytes(uploadedFile.content as List<int>);
+      final filenameRaw = fileData['filename'] as String;
+      final base64Content = fileData['content'] as String;
+
+      // Decodificar Base64
+      late List<int> bytes;
+      try {
+        bytes = base64Decode(base64Content);
+      } catch (e) {
+        throw AlfredException(400, 'Contenido Base64 inválido');
+      }
+
+      // Generar nombre único
+      final ext = filenameRaw.split('.').last;
+      final filename = 'img_${DateTime.now().millisecondsSinceEpoch}.$ext';
+
+      // Guardar el archivo
+      final file = File('${carouselDir.path}/$filename');
+      await file.writeAsBytes(bytes);
 
       return {
         'status': 'success',
