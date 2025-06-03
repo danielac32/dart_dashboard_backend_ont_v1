@@ -1,6 +1,7 @@
 
 
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:alfred/alfred.dart';
@@ -100,6 +101,53 @@ class NoticiasController{
       return imageFile.openRead();
     } catch (e) {
       throw AlfredException(500, 'Error loading image');
+    }
+  }
+  Future<Map<String, dynamic>> upload(HttpRequest request, HttpResponse response) async {
+    try {
+      final carouselDir = Directory('assets/noticias');
+
+      if (!await carouselDir.exists()) {
+        await carouselDir.create(recursive: true);
+      }
+
+      final body = await request.bodyAsJsonMap;
+
+      final fileData = body['file'];
+
+      if (fileData is! Map || !fileData.containsKey('filename') || !fileData.containsKey('content')) {
+        throw AlfredException(400, 'Datos de archivo inválidos');
+      }
+
+      final filenameRaw = fileData['filename'] as String;
+      final base64Content = fileData['content'] as String;
+
+      // Decodificar Base64
+      late List<int> bytes;
+      try {
+        bytes = base64Decode(base64Content);
+      } catch (e) {
+        throw AlfredException(400, 'Contenido Base64 inválido');
+      }
+
+      // Generar nombre único
+      final ext = filenameRaw.split('.').last;
+      final filename = 'img_${DateTime.now().millisecondsSinceEpoch}.$ext';
+
+      // Guardar el archivo
+      final file = File('${carouselDir.path}/$filename');
+      await file.writeAsBytes(bytes);
+
+      return {
+        'status': 'success',
+        'path': '/carrusel/$filename'
+      };
+
+
+    } on AlfredException {
+      rethrow;
+    } catch (e) {
+      throw AlfredException(500, 'Error al procesar la imagen: ${e.toString()}');
     }
   }
 }

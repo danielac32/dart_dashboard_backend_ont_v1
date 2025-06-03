@@ -22,21 +22,23 @@ void mediaRoutes(String url,Alfred app){
   app.delete('${url}noticias/',noiciasController.remove,middleware: []);
   app.get('${url}noticias/',noiciasController.get, middleware: []);//este get recibe un query params name
   app.get('${url}noticias/list/',noiciasController.list,middleware: []);
+  app.post('${url}noticias/upload/',noiciasController.upload,middleware: []);
+
 
   app.delete('${url}resumen/',resumenController.remove,middleware: []);
   app.get('${url}resumen/',resumenController.get, middleware: []);//este get recibe un query params name
   app.get('${url}resumen/list/',resumenController.list,middleware: []);
-
+  app.post('${url}resumen/upload/',resumenController.upload,middleware: []);
 
   app.get('sections/',(req, res) {
     final List<String> Sections =[
       AppStrings.carrusel,
-      AppStrings.organismos,
+      /*AppStrings.organismos,
       AppStrings.gobernacion,
-      AppStrings.alcaldias,
+      AppStrings.alcaldias,*/
       AppStrings.programacionFinanciera,
       AppStrings.resumenGestion,
-      AppStrings.noticias
+     // AppStrings.noticias
     ];
     return {
       "sections":Sections
