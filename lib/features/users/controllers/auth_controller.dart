@@ -20,10 +20,13 @@ class AuthController {
       Future<Map<String, dynamic>> login(HttpRequest request, HttpResponse response) async {
         try {
           final body = await request.bodyAsJsonMap;
+
           final user = await _userService.login(
             body['email'] as String,
             body['password'] as String,
           );
+
+
 
           if (user == null) {
             throw AlfredException(HttpStatus.unprocessableEntity, {'error': 'Credenciales inválidas'});

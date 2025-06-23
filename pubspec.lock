@@ -209,6 +209,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.2.0"
+  dart_odbc:
+    dependency: "direct main"
+    description:
+      name: dart_odbc
+      sha256: c679d299886bdac794ebc658d606178c126237dc475dbc4de3add95e11f27595
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.2.0+1"
   dart_style:
     dependency: transitive
     description:

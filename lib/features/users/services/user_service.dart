@@ -49,6 +49,8 @@ class UserService {
 
   Future<User?> login( String email,  String password) async {
     final user = _userRepository.getByEmail(email);
+    //print("${email} ${password}");
+    //print("${user?.email} ${user?.password}");
     return user != null && user.password == password ? user : null;
   }
 
