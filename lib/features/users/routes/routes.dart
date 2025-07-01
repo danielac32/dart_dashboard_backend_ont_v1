@@ -30,7 +30,7 @@ void userRoutes({required String url,required Alfred app,required UserService us
   app.get('/avatar',(req, res) async {
     try {
       // Lee la imagen del sistema de archivos
-      final imageFile = File('assets/avatar/image.png');
+      final imageFile = File('assets/avatar/avatar.png');
 
       if (!await imageFile.exists()) {
     throw AlfredException(404, 'Image not found');
