@@ -155,6 +155,8 @@ class UserController{
         'success': success,
         'user': userUpdate.toJson() // Asegúrate de convertir a JSON
       };
+    } on AlfredException {
+      rethrow;
     } catch (e) {
       throw AlfredException(HttpStatus.internalServerError, {'error': e.toString()});
     }

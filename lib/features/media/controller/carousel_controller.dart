@@ -60,6 +60,8 @@ class CarouselController{
         "list": files,
         "timestamp": DateTime.now().toIso8601String()
       };
+    } on AlfredException {
+      rethrow;
     } catch (e) {
       throw AlfredException(500, 'Error listing images: ${e.toString()}');
     }
@@ -99,6 +101,8 @@ class CarouselController{
       final contentType = contentTypeMap[extension] ?? ContentType('image', 'png');
       response.headers.contentType = contentType;
       return imageFile.openRead();
+    } on AlfredException {
+      rethrow;
     } catch (e) {
       throw AlfredException(500, 'Error loading image');
     }
@@ -142,6 +146,7 @@ class CarouselController{
       try {
         bytes = base64Decode(base64Content);
       } catch (e) {
+        if (e is AlfredException) rethrow;
         throw AlfredException(400, 'Contenido Base64 inválido');
       }
 

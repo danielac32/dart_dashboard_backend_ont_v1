@@ -60,6 +60,8 @@ class NoticiasController{
         "list": files,
         "timestamp": DateTime.now().toIso8601String()
       };
+    } on AlfredException {
+      rethrow;
     } catch (e) {
       throw AlfredException(500, 'Error listing images: ${e.toString()}');
     }
@@ -99,6 +101,8 @@ class NoticiasController{
       final contentType = contentTypeMap[extension] ?? ContentType('image', 'png');
       response.headers.contentType = contentType;
       return imageFile.openRead();
+    } on AlfredException {
+      rethrow;
     } catch (e) {
       throw AlfredException(500, 'Error loading image');
     }

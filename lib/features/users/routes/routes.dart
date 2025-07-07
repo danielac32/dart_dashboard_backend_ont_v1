@@ -38,6 +38,8 @@ void userRoutes({required String url,required Alfred app,required UserService us
     // Configura los headers adecuados para imágenes
     res.headers.contentType = ContentType('image', 'png'); // Ajusta según el tipo de imagen
     return imageFile.openRead();
+    } on AlfredException {
+      rethrow;
     } catch (e) {
     throw AlfredException(500, 'Error loading image');
     }

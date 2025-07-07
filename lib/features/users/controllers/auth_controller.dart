@@ -26,10 +26,9 @@ class AuthController {
             body['password'] as String,
           );
 
-
-
           if (user == null) {
-            throw AlfredException(HttpStatus.unprocessableEntity, {'error': 'Credenciales inválidas'});
+            //print("Credenciales inválidas");
+            throw AlfredException(HttpStatus.notFound, {'error': 'Credenciales inválidas'});
           }
 
           final token = generateJWT(body['email']);
@@ -38,9 +37,12 @@ class AuthController {
             'user': user,
             'token': token,
           };
+        } on AlfredException {
+          rethrow;
         } catch (e) {
           // Esto evita que Alfred envíe su propio manejo de errores si ya has respondido
-          throw AlfredException(HttpStatus.internalServerError, {'error': e.toString()});
+          //print("error al iniciar");
+          throw AlfredException(HttpStatus.internalServerError, {'error': "Iniciando sesion"});
         }
       }
 
@@ -83,8 +85,9 @@ class AuthController {
             );
           }
 
+        } on AlfredException {
+          rethrow;
         } catch (e) {
-          if (e is AlfredException) rethrow;
 
           throw AlfredException(
             HttpStatus.internalServerError,
